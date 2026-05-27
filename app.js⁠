@@ -1,0 +1,163 @@
+const tg = window.Telegram.WebApp;
+tg.expand(); // Открываем приложение на максимум
+
+// Попробуем получить реальные данные пользователя из Telegram
+if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    const user = tg.initDataUnsafe.user;
+    document.getElementById('user-name').innerText = user.first_name || "Premium User";
+    if (user.username) {
+        document.getElementById('user-avatar').innerText = user.first_name.charAt(0).toUpperCase();
+    }
+}
+
+// База данных локализации
+const langData = {
+    ru: {
+        "txt-status": "Премиум Активен",
+        "lbl-traffic": "Трафик",
+        "lbl-ping": "Пинг",
+        "lbl-locations": "Доступные локации",
+        "lbl-billing-title": "Выбор тарифа",
+        "btn-pay-stars": "Оплатить через Telegram Stars",
+        "btn-pay-six": "Выбрать тариф",
+        "btn-promo": "Применить",
+        "lbl-keys-title": "Ваши ключи доступа",
+        "btn-copy-1": "Копировать",
+        "btn-copy-2": "Копировать",
+        "lbl-instr-title": "Инструкция по настройке",
+        "lbl-ref-title": "Пригласи друга – получи бонус!",
+        "lbl-ref-desc": "Получайте по 7 дней бесплатного VPN за каждого реферала, который оформит подписку.",
+        "lbl-invited": "Приглашено",
+        "lbl-bonus-days": "Бонусные дни",
+        "btn-share": "Пригласить друга",
+        "lbl-diag-title": "Центр диагностики",
+        "btn-start-diag": "Запустить проверку сети",
+        "lbl-faq-title": "Частые вопросы",
+        "btn-contact-tech": "Связаться с техподдержкой",
+        "nav-dash": "Главная",
+        "nav-bill": "Тарифы",
+        "nav-keys": "Ключи",
+        "nav-ref": "Друзья",
+        "nav-supp": "Помощь"
+    },
+    en: {
+        "txt-status": "Premium Active",
+        "lbl-traffic": "Traffic",
+        "lbl-ping": "Ping",
+        "lbl-locations": "Available Locations",
+        "lbl-billing-title": "Select Plan",
+        "btn-pay-stars": "Pay via Telegram Stars",
+        "btn-pay-six": "Select Plan",
+        "btn-promo": "Apply",
+        "lbl-keys-title": "Your Access Keys",
+        "btn-copy-1": "Copy",
+        "btn-copy-2": "Copy",
+        "lbl-instr-title": "Setup Instructions",
+        "lbl-ref-title": "Invite a Friend – Get a Bonus!",
+        "lbl-ref-desc": "Get 7 days of free VPN for every friend who subscribes.",
+        "lbl-invited": "Invited",
+        "lbl-bonus-days": "Bonus Days",
+        "btn-share": "Invite Friend",
+        "lbl-diag-title": "Diagnostics Center",
+        "btn-start-diag": "Run Network Check",
+        "lbl-faq-title": "FAQ",
+        "btn-contact-tech": "Contact Support",
+        "nav-dash": "Dashboard",
+        "nav-bill": "Plans",
+        "nav-keys": "Keys",
+        "nav-ref": "Referral",
+        "nav-supp": "Help"
+    }
+};
+
+// Переключение вкладок (экранов)
+function switchScreen(screenId, btn) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(screenId).classList.add('active');
+    btn.classList.add('active');
+}
+
+// Переключение языков
+function changeLanguage(lang) {
+    const dict = langData[lang];
+    for (let id in dict) {
+        const el = document.getElementById(id);
+        if (el) {
+            if (el.tagName === 'INPUT') el.placeholder = dict[id];
+            else el.innerText = dict[id];
+        }
+    }
+}
+
+// Кнопка Подключения ВПН (имитация действия)
+let isConnected = false;
+function toggleConnect() {
+    const btn = document.getElementById('btn-connect');
+    const statusTxt = document.getElementById('txt-connect-status');
+    const pingTxt = document.getElementById('val-ping');
+    
+    isConnected = !isConnected;
+    
+    if (isConnected) {
+        btn.classList.remove('disconnected');
+        btn.classList.add('connected');
+        statusTxt.innerText = "Подключено";
+        statusTxt.style.color = "#4caf50";
+        pingTxt.innerText = "42 ms";
+        tg.HapticFeedback.notificationOccurred("success"); // Вибрация на телефоне
+    } else {
+        btn.classList.remove('connected');
+        btn.classList.add('disconnected');
+        statusTxt.innerText = "Отключено";
+        statusTxt.style.color = "#fff";
+        pingTxt.innerText = "-- ms";
+        tg.HapticFeedback.notificationOccurred("warning");
+    }
+}
+
+// Выбор локации
+function selectLocation(element, country) {
+    document.querySelectorAll('.location-item').forEach(item => item.classList.remove('active'));
+    element.classList.add('active');
+    if (isConnected) {
+        // Если подключен — переподключаем имитацию для обновления пинга
+        toggleConnect(); toggleConnect();
+    }
+}
+
+// Копирование ключей в буфер обмена
+function copyKey(id) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Ключ скопирован в буфер обмена!");
+    });
+}
+
+// Имитация оплаты Stars
+function payTariff(plan) {
+    tg.sendData(JSON.stringify({action: "buy_plan", plan: plan}));
+}
+
+// Имитация отправки реферальной ссылки
+function shareRefLink() {
+    // В реальном боте откроет окно выбора чата
+    tg.openTelegramLink("https://t.me/share/url?url=https://t.me/твой_vpn_bot?start=ref123");
+}
+
+// Диагностика
+function runDiagnostics() {
+    const log = document.getElementById('diag-results');
+    log.style.display = 'block';
+    tg.HapticFeedback.impactOccurred("medium");
+}
+
+// Аккордеон (FAQ)
+function toggleFaq(el) {
+    const body = el.querySelector('.accordion-body');
+    body.style.display = body.style.display === 'block' ? 'none' : 'block';
+}
+
+// Старт по умолчанию на русском языке
+changeLanguage('ru');
