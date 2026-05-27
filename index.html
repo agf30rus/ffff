@@ -1,0 +1,32 @@
+document.getElementById('tab-tariffs').classList.add('hidden');
+            document.getElementById('tab-profile').classList.add('hidden');
+
+            // Убираем активный цвет у всех кнопок меню
+            document.getElementById('nav-home').className = "flex flex-col items-center gap-1 py-1 px-3 text-tg-hint transition-colors";
+            document.getElementById('nav-tariffs').className = "flex flex-col items-center gap-1 py-1 px-3 text-tg-hint transition-colors";
+            document.getElementById('nav-profile').className = "flex flex-col items-center gap-1 py-1 px-3 text-tg-hint transition-colors";
+
+            // Показываем нужный раздел и красим нужную кнопку
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`nav-${tabId}`).className = "flex flex-col items-center gap-1 py-1 px-3 active-tab transition-colors";
+        }
+
+        // 3. Функция покупки (Интерактив)
+        function buyPlan(planName) {
+            triggerHaptic();
+            
+            // Всплывающее окно внутри Telegram
+            tg.showAlert(`Plan "${planName}" has been selected! Preparing payment order...`);
+            
+            // Опционально: можно отправить данные назад боту в чат
+            // tg.sendData(JSON.stringify({action: "buy", item: planName}));
+        }
+
+        // 4. Кнопка поддержки
+        function contactSupport() {
+            triggerHaptic();
+            tg.showAlert("Redirecting to technical support chat...");
+        }
+    </script>
+</body>
+</html>
