@@ -276,3 +276,133 @@ header {
 }
 .nav-item { background: none; border: none; color: var(--text-secondary); font-size: 12px; padding: 10px; flex: 1; text-align: center; cursor: pointer; }
 .nav-item.active { color: var(--accent-purple); font-weight: 600; }
+:root {
+    --bg-main: #0c0d12;         /* Глубокий темный космический цвет */
+    --bg-card: #14161f;         /* Цвет карточек со скрина */
+    --header-bg: #111218;
+    --text-main: #ffffff;
+    --text-muted: #64687a;
+    --purple-glow: #b076ff;     /* Фиолетовый неон */
+    --purple-dark: #231932;
+    --blue-tg: #2481cc;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding-bottom: 80px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Шапка из Telegram Premium */
+.app-header {
+    background: var(--header-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid #1a1c26;
+}
+.hdr-btn {
+    background: none; border: none; color: var(--text-muted); font-size: 15px; cursor: pointer;
+}
+.hdr-title { font-weight: 600; font-size: 16px; letter-spacing: -0.3px; }
+.hdr-right { display: flex; gap: 8px; }
+.hdr-circle {
+    background: #1c1e29; border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; font-size: 12px; cursor: pointer;
+}
+
+/* Контейнеры экранов */
+.app-container { padding: 16px; }
+.app-screen { display: none; }
+.app-screen.active { display: block; animation: tabFade 0.25s ease-out; }
+
+@keyframes tabFade {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.screen-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.5px; }
+.screen-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+.text-center { text-align: center; }
+
+/* Карточки Заданий (Tasks) */
+.task-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.task-card {
+    background: var(--bg-card); border-radius: 14px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px; border: 1px solid #1d202d;
+}
+.task-card.disabled { opacity: 0.5; }
+.task-icon { width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0; }
+.tg-blue { background: var(--blue-tg); }
+.purple-gradient { background: linear-gradient(135deg, #a461ff, #6333b2); }
+.lock-gray { background: #2a2d3d; }
+
+.task-info { flex: 1; }
+.task-info h4 { margin: 0 0 3px 0; font-size: 14px; font-weight: 600; }
+.task-info p { margin: 0; font-size: 12px; color: var(--text-muted); }
+
+.task-action-btn {
+    background: #1e2235; border: none; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.task-action-btn.claim { background: linear-gradient(90deg, #b076ff, #7641d4); box-shadow: 0 0 10px rgba(176,118,255,0.4); }
+.task-status-text { font-size: 12px; color: var(--text-muted); }
+
+/* Кнопки */
+.btn {
+    width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 15px; font-weight: 600; cursor: pointer; text-align: center;
+}
+.btn-purple { background: linear-gradient(90deg, #9b51e0, #7333b2); color: white; box-shadow: 0 4px 15px rgba(155,81,224,0.3); }
+
+/* Статистика рефералов */
+.stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+.mini-stat-box { background: var(--bg-card); padding: 12px; border-radius: 12px; display: flex; flex-direction: column; border: 1px solid #1d202d; }
+.stat-num { font-size: 18px; font-weight: 700; color: var(--purple-glow); }
+.stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* График со скриншота */
+.chart-container { background: var(--bg-card); border-radius: 14px; padding: 14px; border: 1px solid #1d202d; margin-top: 15px; }
+.chart-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+.chart-tabs { display: flex; gap: 8px; background: #0c0d12; padding: 2px; border-radius: 6px; }
+.c-tab { padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+.c-tab.active { background: #231932; color: var(--purple-glow); font-weight: 600; }
+.mock-chart { width: 100%; height: 70px; margin-top: 5px; }
+.chart-svg { width: 100%; height: 100%; overflow: visible; }
+
+/* Виджет баланса (Лидерборд) */
+.balance-widget {
+    background: #13141d; border-radius: 14px; padding: 12px; display: flex; justify-content: space-around; margin-bottom: 15px; border: 1px solid #1d202d;
+}
+.b-item { text-align: center; }
+.b-val { display: block; font-size: 16px; font-weight: 700; }
+.b-lbl { font-size: 11px; color: var(--text-muted); }
+.total-points-badge { text-align: center; font-size: 13px; color: var(--text-muted); margin: 15px 0; }
+.total-points-badge span { color: #fff; font-weight: 700; }
+
+/* Список лидеров */
+.leaderboard-list { display: flex; flex-direction: column; gap: 8px; }
+.leader-item {
+    background: var(--bg-card); padding: 12px; border-radius: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid #1d202d;
+}
+.leader-item.top-three { background: linear-gradient(90deg, #181624, #13141d); border-left: 3px solid var(--purple-glow); }
+.rank { font-size: 13px; font-weight: 700; color: var(--text-muted); width: 15px; }
+.top-three .rank { color: var(--purple-glow); }
+.leader-avatar { width: 28px; height: 28px; background: #222533; border-radius: 50%; }
+.leader-name { flex: 1; font-size: 14px; font-weight: 500; }
+.leader-score { font-size: 14px; font-weight: 700; color: var(--purple-glow); }
+
+/* Нижняя панель */
+.bottom-menu {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: #0c0d12;
+    display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #1a1c26; z-index: 1000;
+}
+.menu-item {
+    background: none; border: none; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1;
+}
+.menu-item.active { color: var(--purple-glow); }
+.m-icon { font-size: 20px; }
+.m-text { font-size: 10px; font-weight: 500; }
