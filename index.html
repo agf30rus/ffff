@@ -159,3 +159,78 @@
     <script src="app.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Velox VPN Bot</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+    <header>
+        <button class="icon-btn back-btn">‹</button>
+        <span class="app-title">Velox VPN</span>
+        <div class="header-actions">
+            <button class="icon-btn more-btn">•••</button>
+            <button class="icon-btn close-btn">✕</button>
+        </div>
+    </header>
+
+    <main class="content">
+        
+        <div class="referral-banner">
+            <div class="banner-icon">🎁</div>
+            <h2>Пригласи друга!</h2>
+            <p>Получайте бесплатные дни VPN за каждого реферала, который оформит подписку.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Статус подписки</span>
+                <span class="stat-value premium-text">Premium Active</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Текущий пинг</span>
+                <span class="stat-value">42 ms</span>
+            </div>
+        </div>
+
+        <div class="section-title">Серверы</div>
+        <div class="location-list">
+            <div class="location-item active">
+                <span class="flag">🇳🇱</span> <span>Netherlands (Amsterdam)</span> <span class="status-indicator online"></span>
+            </div>
+            <div class="location-item">
+                <span class="flag">🇩🇪</span> <span>Germany (Frankfurt)</span> <span class="badge">95 ms</span>
+            </div>
+            <div class="location-item premium-item">
+                <span class="flag">🇺🇸</span> <span>USA (New York)</span> <span class="badge premium">Premium</span>
+            </div>
+        </div>
+
+        <div class="main-action">
+            <button class="btn btn-premium btn-connect">
+                <span class="power-icon">⏻</span> Подключить VPN
+            </button>
+        </div>
+
+    </main>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active">Главная</button>
+        <button class="nav-item">Ключи</button>
+        <button class="nav-item">Тарифы</button>
+        <button class="nav-item">Помощь</button>
+    </nav>
+
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Развернуть на весь экран
+    </script>
+</body>
+</html>
+
