@@ -1,0 +1,99 @@
+// Инициализация Telegram Web App API (чтобы приложение знало, что оно внутри ТГ)
+const tg = window.Telegram.WebApp;
+tg.expand(); // Развернуть на весь экран
+
+// База данных переводов (Локализация)
+const translations = {
+    ru: {
+        "app-title": "Панель Управления",
+        "txt-vpn-status": "Статус подписки: Активна",
+        "txt-vpn-expires": "Действует до: 25.12.2026",
+        "btn-buy": "Продлить VPN",
+        "txt-cams-title": "Мониторинг дорог (Астрахань)",
+        "txt-select-cam": "Выберите улицу:",
+        "txt-help-title": "Нужна помощь?",
+        "txt-help-desc": "Если у вас возникли проблемы с подключением или вы хотите сообщить о ДПС, напишите нашему оператору.",
+        "btn-support": "Связаться с техподдержкой",
+        "nav-vpn": "VPN",
+        "nav-cams": "Камеры",
+        "nav-support": "Поддержка"
+    },
+    en: {
+        "app-title": "Control Panel",
+        "txt-vpn-status": "Subscription Status: Active",
+        "txt-vpn-expires": "Valid until: 2026-12-25",
+        "btn-buy": "Renew VPN",
+        "txt-cams-title": "Road Monitoring (Astrakhan)",
+        "txt-select-cam": "Select a street:",
+        "txt-help-title": "Need help?",
+        "txt-help-desc": "If you have any connection issues or want to report traffic police, contact our operator.",
+        "btn-support": "Contact Support",
+        "nav-vpn": "VPN",
+        "nav-cams": "Cameras",
+        "nav-support": "Support"
+    }
+};
+
+// Функция переключения языков
+function changeLanguage(lang) {
+    const langData = translations[lang];
+    for (let key in langData) {
+        const element = document.getElementById(key);
+        if (element) {
+            if (element.tagName === 'INPUT' || element.tagName === 'BUTTON' && element.id === 'btn-buy') {
+                element.innerText = langData[key];
+            } else {
+                element.innerText = langData[key];
+            }
+        }
+    }
+}
+
+// Функция переключения вкладок нижней навигации
+function switchTab(tabId, button) {
+    // Скрываем все вкладки
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    // Убираем активный класс у кнопок меню
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    
+    // Показываем нужную вкладку и активируем кнопку
+    document.getElementById(tabId).classList.add('active');
+    button.classList.add('active');
+
+    // Если ушли со вкладки камер, останавливаем плеер, чтобы не тратить трафик
+    if (tabId !== 'tab-cams') {
+        const video = document.getElementById('video-player');
+        video.pause();
+    }
+}
+
+// Функция запуска трансляции дорожной камеры
+function playCamera(videoSrc) {
+    const video = document.getElementById('video-player');
+    if (!videoSrc) return;
+
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            video.play();
+        });
+    } 
+    // Встроенная поддержка HLS (для iOS / Safari на Айфонах)
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = videoSrc;
+        video.addEventListener('loadedmetadata', function() {
+            video.play();
+        });
+    }
+}
+
+// Пример действия при нажатии кнопки покупки
+function actionBuy() {
+    tg.sendData("action_buy_vpn"); // Отправляет боту сигнал, что нажата кнопка покупки
+    tg.close(); // Закрывает мини-приложение (по желанию)
+}
+
+// Устанавливаем русский язык по умолчанию при старте
+changeLanguage('ru');
