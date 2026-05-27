@@ -11,14 +11,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Привязка к родным цветам темы Telegram */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #222222);
             -webkit-font-smoothing: antialiased;
         }
-        /* Фирменный изумрудный цвет со скриншотов */
         .bg-dino-green {
             background-color: #0b9363;
         }
@@ -32,10 +30,10 @@
 </head>
 <body class="p-4 min-h-screen flex flex-col justify-between selection:bg-emerald-100">
 
-    <!-- Главный контейнер (адаптируется под размер экрана Telegram на iPhone) -->
+    <!-- Главный контейнер -->
     <div class="w-full max-w-md mx-auto flex-1 flex flex-col justify-between min-h-[88vh]">
         
-        <!-- ================= ЭКРАН 1: ВЫБОР УСТРОЙСТВА (image_2.png) ================= -->
+        <!-- ================= ЭКРАН 1: ВЫБОР УСТРОЙСТВА ================= -->
         <div id="screen-1" class="flex-1 flex flex-col justify-between">
             <div>
                 <h2 class="text-[28px] font-bold text-center text-gray-900 dark:text-white tracking-tight mb-2 mt-6">
@@ -47,7 +45,6 @@
 
                 <!-- Сетка устройств 2х2 -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
-                    <!-- iPhone / iPad (Ведет на Экран 2) -->
                     <div onclick="switchScreen(2)" class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
                         <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-solid fa-mobile-screen-button"></i>
@@ -55,7 +52,6 @@
                         <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">iPhone/iPad</span>
                     </div>
 
-                    <!-- Android -->
                     <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
                         <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-brands fa-android"></i>
@@ -63,7 +59,6 @@
                         <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">Android</span>
                     </div>
 
-                    <!-- Windows -->
                     <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
                         <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-solid fa-desktop"></i>
@@ -71,7 +66,6 @@
                         <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">Windows</span>
                     </div>
 
-                    <!-- macOS -->
                     <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
                         <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-brands fa-apple"></i>
@@ -80,7 +74,6 @@
                     </div>
                 </div>
 
-                <!-- Кнопка Android TV / Apple TV -->
                 <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-4 flex items-center justify-center space-x-3 mb-6 bg-white dark:bg-zinc-900/50 shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-900 transition">
                     <div class="w-10 h-10 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl flex items-center justify-center text-emerald-600 text-lg">
                         <i class="fa-solid fa-tv"></i>
@@ -89,17 +82,16 @@
                 </div>
             </div>
 
-            <!-- Дополнительное устройство (снизу) -->
             <button class="w-full border border-sky-200 dark:border-sky-900/50 bg-sky-50/60 dark:bg-sky-950/20 text-sky-600 dark:text-sky-400 font-semibold py-4 rounded-2xl text-sm transition active:scale-[0.99]">
                 <i class="fa-regular fa-copy mr-2"></i> Подключить дополнительное устройство
             </button>
         </div>
 
 
-        <!-- ================= ЭКРАН 2: УСТАНОВКА ПРИЛОЖЕНИЯ (image.png) ================= -->
+        <!-- ================= ЭКРАН 2: УСТАНОВКА ПРИЛОЖЕНИЯ ================= -->
         <div id="screen-2" class="flex-1 flex flex-col justify-between hidden">
             <div>
-                <!-- Верхняя панель (Логотип и Инструкция) -->
+                <!-- ОБНОВЛЕННАЯ НАВИГАЦИОННАЯ ПАНЕЛЬ С КНОПКОЙ ПОДДЕРЖКИ -->
                 <div class="flex justify-between items-center mb-6 mt-2">
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 bg-emerald-700 rounded-full flex items-center justify-center text-white">
@@ -107,9 +99,20 @@
                         </div>
                         <span class="font-bold text-gray-800 dark:text-zinc-100 text-base">Dino VPN</span>
                     </div>
-                    <button class="border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 rounded-full px-4 py-1.5 text-xs font-semibold text-sky-600 dark:text-sky-400 flex items-center space-x-1.5 shadow-sm">
-                        <span class="text-red-500 font-extrabold">?</span> <span>Инструкция</span>
-                    </button>
+                    
+                    <!-- Блок кнопок справа -->
+                    <div class="flex items-center space-x-2">
+                        <!-- Кнопка Поддержка (Новая!) -->
+                        <button onclick="openSupport()" class="border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-full px-3 py-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center space-x-1.5 shadow-sm active:scale-95 transition">
+                            <i class="fa-solid fa-headset text-[11px]"></i>
+                            <span>Поддержка</span>
+                        </button>
+                        
+                        <!-- Кнопка Инструкция -->
+                        <button class="border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 rounded-full px-3 py-1.5 text-xs font-semibold text-sky-600 dark:text-sky-400 flex items-center space-x-1 shadow-sm">
+                            <span class="text-red-500 font-extrabold">?</span> <span>Инструкция</span>
+                        </button>
+                    </div>
                 </div>
 
                 <h2 class="text-[26px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-2">
@@ -129,15 +132,14 @@
                     </button>
                 </div>
 
-                <!-- Кнопка-подсказка "В чем разница?" -->
-                <div class="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl py-3 px-4 flex items-center justify-center space-x-2 mb-6 shadow-sm cursor-pointer hover:bg-gray-50 transition">
+                <!-- Кнопка "В чем разница?" -->
+                <div class="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl py-3 px-4 flex items-center justify-center space-x-2 mb-6 shadow-sm">
                     <span class="bg-blue-500 text-white text-[10px] w-4 h-4 rounded-md flex items-center justify-center font-bold">i</span>
                     <span class="text-gray-600 dark:text-zinc-400 text-xs font-semibold">В чем разница приложений?</span>
                 </div>
 
-                <!-- Кнопки скачивания в фирменном стиле Dino -->
+                <!-- Кнопки скачивания -->
                 <div class="space-y-3">
-                    <!-- Кнопка 1 -->
                     <button class="w-full bg-dino-green text-white p-4 rounded-2xl flex items-center text-left shadow-md shadow-emerald-900/10 transition active:scale-[0.99]">
                         <div class="bg-white/20 w-11 h-11 rounded-xl flex items-center justify-center text-xl mr-4">
                             <i class="fa-solid fa-download"></i>
@@ -148,34 +150,30 @@
                         </div>
                     </button>
 
-                    <!-- Кнопка 2 -->
                     <button class="w-full bg-dino-green text-white p-4 rounded-2xl flex items-center text-left shadow-md shadow-emerald-900/10 transition active:scale-[0.99]">
                         <div class="bg-white/20 w-11 h-11 rounded-xl flex items-center justify-center text-xl mr-4">
                             <i class="fa-solid fa-download"></i>
                         </div>
                         <div>
-                            <div class="font-bold text-[16px]">App Store (другой регион)</div>
+                            <div class="font-semibold text-[16px]">App Store (другой регион)</div>
                             <div class="text-xs text-emerald-100/70 mt-0.5">Из магазина</div>
                         </div>
                     </button>
                 </div>
 
                 <p class="text-center text-xs text-gray-400 dark:text-zinc-500 mt-6 leading-normal">
-                    Установили приложение? <span class="text-dino-green font-bold cursor-pointer">Нажмите «Я установил Happ»</span>
+                    Установили приложение? <span class="text-dino-green font-bold">Нажмите «Я установил Happ»</span>
                 </p>
             </div>
 
-            <!-- Нижний тулбар (Назад / Я установил) -->
+            <!-- Нижний тулбар -->
             <div class="flex items-center space-x-3 mt-8">
-                <!-- QR Код кнопка -->
                 <button class="border border-gray-200 dark:border-zinc-700 text-gray-400 dark:text-zinc-500 p-4 rounded-xl bg-white dark:bg-zinc-900 shadow-sm active:scale-95 transition">
                     <i class="fa-solid fa-qrcode text-lg"></i>
                 </button>
-                <!-- Назад -->
                 <button onclick="switchScreen(1)" class="flex-1 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-sm transition shadow-sm active:scale-95">
                     Назад
                 </button>
-                <!-- Подтверждение (закрывает мини-апп) -->
                 <button onclick="closeTelegramApp()" class="flex-[1.6] bg-dino-green text-white font-bold py-3.5 rounded-xl text-sm transition shadow-md active:scale-95">
                     Я установил Happ
                 </button>
@@ -184,14 +182,11 @@
 
     </div>
 
-    <!-- Логика работы приложения -->
     <script>
-        // Запуск Telegram WebApp контекста
         const webApp = window.Telegram.WebApp;
         webApp.ready();
-        webApp.expand(); // Открывает шторку на максимум вверх
+        webApp.expand();
 
-        // Переключатель экранов (Шаг 1 <-> Шаг 2)
         function switchScreen(screenNumber) {
             const screen1 = document.getElementById('screen-1');
             const screen2 = document.getElementById('screen-2');
@@ -205,11 +200,18 @@
             }
         }
 
-        // Закрытие мини-приложения внутри Telegram при клике на финальную кнопку
         function closeTelegramApp() {
             webApp.close();
+        }
+
+        // Функция открытия поддержки внутри Telegram (Новая!)
+        function openSupport() {
+            // Замени 'твой_аккаунт_поддержки' на юзернейм админа или бота саппорта
+            const supportUsername = 'твой_аккаунт_поддержки'; 
+            
+            // Используем официальный метод Telegram SDK для безопасного открытия ссылок внутри приложения
+            webApp.openTelegramLink('https://t.me/' + supportUsername);
         }
     </script>
 </body>
 </html>
-
