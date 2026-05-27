@@ -6,144 +6,177 @@
     <title>Dino VPN Web App</title>
     <!-- Подключаем Telegram Web Apps SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Tailwind CSS и Иконки -->
-    <script src="https://tailwindcss.com"></script>
+    <!-- Tailwind CSS и FontAwesome для иконок -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* Привязка к родным цветам темы Telegram */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            /* Используем цвета темы Telegram */
             background-color: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #222222);
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Фирменный изумрудный цвет со скриншотов */
+        .bg-dino-green {
+            background-color: #0b9363;
+        }
+        .bg-dino-green:hover {
+            background-color: #097d54;
+        }
+        .text-dino-green {
+            color: #0b9363;
         }
     </style>
 </head>
-<body class="p-4 min-h-screen flex flex-col justify-between bg-[var(--tg-theme-bg-color)]">
+<body class="p-4 min-h-screen flex flex-col justify-between selection:bg-emerald-100">
 
-    <!-- Контейнер приложения (без рамок телефона, так как ТГ сам выступит рамкой) -->
-    <div class="w-full max-w-md mx-auto flex-1 flex flex-col justify-between min-h-[85vh]">
+    <!-- Главный контейнер (адаптируется под размер экрана Telegram на iPhone) -->
+    <div class="w-full max-w-md mx-auto flex-1 flex flex-col justify-between min-h-[88vh]">
         
-        <!-- ================= ЭКРАН 1: ВЫБОР УСТРОЙСТВА ================= -->
+        <!-- ================= ЭКРАН 1: ВЫБОР УСТРОЙСТВА (image_2.png) ================= -->
         <div id="screen-1" class="flex-1 flex flex-col justify-between">
             <div>
-                <h2 class="text-[24px] font-bold text-center mb-2 mt-4">Выберите устройство</h2>
-                <p class="text-gray-400 text-center text-sm px-6 mb-8">Выберите ваше устройство для настройки подключения</p>
+                <h2 class="text-[28px] font-bold text-center text-gray-900 dark:text-white tracking-tight mb-2 mt-6">
+                    Выберите устройство
+                </h2>
+                <p class="text-gray-400 dark:text-zinc-400 text-center text-[15px] px-8 leading-relaxed mb-8">
+                    Выберите ваше устройство для настройки подключения
+                </p>
 
+                <!-- Сетка устройств 2х2 -->
                 <div class="grid grid-cols-2 gap-4 mb-4">
-                    <!-- iPhone / iPad (Переключает на экран 2) -->
-                    <div onclick="switchScreen(2)" class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-900 transition active:scale-95">
-                        <div class="w-12 h-12 bg-green-50 dark:bg-emerald-950/30 rounded-full flex items-center justify-center text-green-500 text-xl mb-3">
+                    <!-- iPhone / iPad (Ведет на Экран 2) -->
+                    <div onclick="switchScreen(2)" class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
+                        <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-solid fa-mobile-screen-button"></i>
                         </div>
-                        <span class="font-medium text-sm">iPhone/iPad</span>
+                        <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">iPhone/iPad</span>
                     </div>
 
                     <!-- Android -->
-                    <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-900 transition">
-                        <div class="w-12 h-12 bg-green-50 dark:bg-emerald-950/30 rounded-full flex items-center justify-center text-green-500 text-xl mb-3">
+                    <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
+                        <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-brands fa-android"></i>
                         </div>
-                        <span class="font-medium text-sm">Android</span>
+                        <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">Android</span>
                     </div>
 
                     <!-- Windows -->
-                    <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-900 transition">
-                        <div class="w-12 h-12 bg-green-50 dark:bg-emerald-950/30 rounded-full flex items-center justify-center text-green-500 text-xl mb-3">
+                    <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
+                        <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-solid fa-desktop"></i>
                         </div>
-                        <span class="font-medium text-sm">Windows</span>
+                        <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">Windows</span>
                     </div>
 
                     <!-- macOS -->
-                    <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-900 transition">
-                        <div class="w-12 h-12 bg-green-50 dark:bg-emerald-950/30 rounded-full flex items-center justify-center text-green-500 text-xl mb-3">
+                    <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-white dark:bg-zinc-900/50 shadow-sm hover:shadow-md transition active:scale-95">
+                        <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center text-emerald-600 text-xl mb-3">
                             <i class="fa-brands fa-apple"></i>
                         </div>
-                        <span class="font-medium text-sm">macOS</span>
+                        <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">macOS</span>
                     </div>
                 </div>
 
-                <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-4 flex items-center justify-center space-x-3 mb-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-900 transition">
-                    <div class="w-10 h-10 bg-green-50 dark:bg-emerald-950/30 rounded-full flex items-center justify-center text-green-500 text-lg">
+                <!-- Кнопка Android TV / Apple TV -->
+                <div class="border border-gray-100 dark:border-zinc-800 rounded-2xl p-4 flex items-center justify-center space-x-3 mb-6 bg-white dark:bg-zinc-900/50 shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-900 transition">
+                    <div class="w-10 h-10 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl flex items-center justify-center text-emerald-600 text-lg">
                         <i class="fa-solid fa-tv"></i>
                     </div>
-                    <span class="font-medium text-sm">Android TV / Apple TV</span>
+                    <span class="font-semibold text-gray-800 dark:text-zinc-200 text-sm">Android TV / Apple TV</span>
                 </div>
             </div>
 
-            <button class="w-full border border-sky-200 bg-sky-50/50 text-sky-600 font-medium py-4 rounded-2xl text-sm hover:bg-sky-100 transition active:scale-[0.98]">
+            <!-- Дополнительное устройство (снизу) -->
+            <button class="w-full border border-sky-200 dark:border-sky-900/50 bg-sky-50/60 dark:bg-sky-950/20 text-sky-600 dark:text-sky-400 font-semibold py-4 rounded-2xl text-sm transition active:scale-[0.99]">
                 <i class="fa-regular fa-copy mr-2"></i> Подключить дополнительное устройство
             </button>
         </div>
 
-        <!-- ================= ЭКРАН 2: УСТАНОВКА ПРИЛОЖЕНИЯ ================= -->
+
+        <!-- ================= ЭКРАН 2: УСТАНОВКА ПРИЛОЖЕНИЯ (image.png) ================= -->
         <div id="screen-2" class="flex-1 flex flex-col justify-between hidden">
             <div>
+                <!-- Верхняя панель (Логотип и Инструкция) -->
                 <div class="flex justify-between items-center mb-6 mt-2">
                     <div class="flex items-center space-x-2">
-                        <div class="w-7 h-7 bg-green-700 rounded-full flex items-center justify-center text-white text-xs">
-                            <i class="fa-solid fa-dragon"></i>
+                        <div class="w-8 h-8 bg-emerald-700 rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-dragon text-sm"></i>
                         </div>
-                        <span class="font-bold text-sm">Dino VPN</span>
+                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-base">Dino VPN</span>
                     </div>
-                    <button class="border border-gray-200 dark:border-zinc-700 rounded-full px-4 py-1.5 text-xs font-medium text-sky-600 flex items-center space-x-1">
-                        <span class="text-red-500 font-bold">?</span> <span>Инструкция</span>
+                    <button class="border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 rounded-full px-4 py-1.5 text-xs font-semibold text-sky-600 dark:text-sky-400 flex items-center space-x-1.5 shadow-sm">
+                        <span class="text-red-500 font-extrabold">?</span> <span>Инструкция</span>
                     </button>
                 </div>
 
-                <h2 class="text-2xl font-bold mb-2">Шаг 1. Установка приложения</h2>
-                <p class="text-gray-400 text-sm mb-5">Выберите приложение для iPhone/iPad и скачайте его.</p>
+                <h2 class="text-[26px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-2">
+                    Шаг 1. Установка приложения
+                </h2>
+                <p class="text-gray-400 dark:text-zinc-400 text-[15px] mb-6">
+                    Выберите приложение для iPhone/iPad и скачайте его.
+                </p>
 
-                <div class="bg-gray-50 dark:bg-zinc-900 p-1 rounded-full flex mb-4 border border-gray-100 dark:border-zinc-800">
-                    <button class="flex-1 bg-green-200 text-gray-800 font-medium py-2 rounded-full text-xs flex items-center justify-center space-x-1">
+                <!-- Вкладки Happ / INCY -->
+                <div class="bg-gray-100 dark:bg-zinc-900 p-1 rounded-full flex mb-4 border border-gray-200/50 dark:border-zinc-800">
+                    <button class="flex-1 bg-emerald-200 dark:bg-emerald-900 text-gray-900 dark:text-emerald-100 font-bold py-2.5 rounded-full text-xs flex items-center justify-center space-x-1 shadow-sm">
                         <span>Happ</span> <i class="fa-solid fa-star text-[10px]"></i>
                     </button>
-                    <button class="flex-1 text-gray-400 font-medium py-2 rounded-full text-xs">
+                    <button class="flex-1 text-gray-400 dark:text-zinc-500 font-bold py-2.5 rounded-full text-xs">
                         INCY
                     </button>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-xl py-2 px-4 flex items-center justify-center space-x-2 mb-6">
-                    <span class="bg-sky-500 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">i</span>
-                    <span class="text-gray-500 text-xs font-medium">В чем разница приложений?</span>
+                <!-- Кнопка-подсказка "В чем разница?" -->
+                <div class="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl py-3 px-4 flex items-center justify-center space-x-2 mb-6 shadow-sm cursor-pointer hover:bg-gray-50 transition">
+                    <span class="bg-blue-500 text-white text-[10px] w-4 h-4 rounded-md flex items-center justify-center font-bold">i</span>
+                    <span class="text-gray-600 dark:text-zinc-400 text-xs font-semibold">В чем разница приложений?</span>
                 </div>
 
+                <!-- Кнопки скачивания в фирменном стиле Dino -->
                 <div class="space-y-3">
-                    <button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-2xl flex items-center text-left transition active:scale-[0.98]">
-                        <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-4">
+                    <!-- Кнопка 1 -->
+                    <button class="w-full bg-dino-green text-white p-4 rounded-2xl flex items-center text-left shadow-md shadow-emerald-900/10 transition active:scale-[0.99]">
+                        <div class="bg-white/20 w-11 h-11 rounded-xl flex items-center justify-center text-xl mr-4">
                             <i class="fa-solid fa-download"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-[15px]">App Store (регион Россия)</div>
-                            <div class="text-xs text-emerald-100/80 mt-0.5">Happ для Apple ID Россия</div>
+                            <div class="font-bold text-[16px]">App Store (регион Россия)</div>
+                            <div class="text-xs text-emerald-100/70 mt-0.5">Happ для Apple ID Россия</div>
                         </div>
                     </button>
 
-                    <button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-2xl flex items-center text-left transition active:scale-[0.98]">
-                        <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-4">
+                    <!-- Кнопка 2 -->
+                    <button class="w-full bg-dino-green text-white p-4 rounded-2xl flex items-center text-left shadow-md shadow-emerald-900/10 transition active:scale-[0.99]">
+                        <div class="bg-white/20 w-11 h-11 rounded-xl flex items-center justify-center text-xl mr-4">
                             <i class="fa-solid fa-download"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-[15px]">App Store (другой регион)</div>
-                            <div class="text-xs text-emerald-100/80 mt-0.5">Из магазина</div>
+                            <div class="font-bold text-[16px]">App Store (другой регион)</div>
+                            <div class="text-xs text-emerald-100/70 mt-0.5">Из магазина</div>
                         </div>
                     </button>
                 </div>
 
-                <p class="text-center text-xs text-gray-400 mt-6">
-                    Установили приложение? <span class="text-emerald-600 font-medium">Нажмите «Я установил Happ»</span>
+                <p class="text-center text-xs text-gray-400 dark:text-zinc-500 mt-6 leading-normal">
+                    Установили приложение? <span class="text-dino-green font-bold cursor-pointer">Нажмите «Я установил Happ»</span>
                 </p>
             </div>
 
-            <!-- Кнопки управления внизу -->
+            <!-- Нижний тулбар (Назад / Я установил) -->
             <div class="flex items-center space-x-3 mt-8">
-                <button class="border border-gray-200 dark:border-zinc-700 text-gray-400 p-3.5 rounded-xl text-xs">
-                    <i class="fa-solid fa-qrcode text-base"></i>
+                <!-- QR Код кнопка -->
+                <button class="border border-gray-200 dark:border-zinc-700 text-gray-400 dark:text-zinc-500 p-4 rounded-xl bg-white dark:bg-zinc-900 shadow-sm active:scale-95 transition">
+                    <i class="fa-solid fa-qrcode text-lg"></i>
                 </button>
-                <button onclick="switchScreen(1)" class="flex-1 border border-gray-200 dark:border-zinc-700 font-medium py-3.5 rounded-xl text-sm transition">
+                <!-- Назад -->
+                <button onclick="switchScreen(1)" class="flex-1 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-sm transition shadow-sm active:scale-95">
                     Назад
                 </button>
-                <button onclick="tgClose()" class="flex-[1.5] bg-emerald-600 text-white font-medium py-3.5 rounded-xl text-sm transition">
+                <!-- Подтверждение (закрывает мини-апп) -->
+                <button onclick="closeTelegramApp()" class="flex-[1.6] bg-dino-green text-white font-bold py-3.5 rounded-xl text-sm transition shadow-md active:scale-95">
                     Я установил Happ
                 </button>
             </div>
@@ -151,16 +184,19 @@
 
     </div>
 
+    <!-- Логика работы приложения -->
     <script>
-        // Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
-        tg.ready(); // Сообщаем ТГ, что приложение загрузилось
-        tg.expand(); // Растягиваем на весь экран телефона
+        // Запуск Telegram WebApp контекста
+        const webApp = window.Telegram.WebApp;
+        webApp.ready();
+        webApp.expand(); // Открывает шторку на максимум вверх
 
-        function switchScreen(screenNum) {
+        // Переключатель экранов (Шаг 1 <-> Шаг 2)
+        function switchScreen(screenNumber) {
             const screen1 = document.getElementById('screen-1');
             const screen2 = document.getElementById('screen-2');
-            if (screenNum === 1) {
+            
+            if (screenNumber === 1) {
                 screen1.classList.remove('hidden');
                 screen2.classList.add('hidden');
             } else {
@@ -169,10 +205,11 @@
             }
         }
 
-        // Функция закрытия приложения при завершении сценария
-        function tgClose() {
-            tg.close();
+        // Закрытие мини-приложения внутри Telegram при клике на финальную кнопку
+        function closeTelegramApp() {
+            webApp.close();
         }
     </script>
 </body>
 </html>
+
