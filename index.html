@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Dino VPN Web App</title>
+    <title>VlessX VPN</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
-        // Автоматическое определение темной темы Telegram
         if (window.Telegram?.WebApp?.colorScheme === 'dark') {
             document.documentElement.classList.add('dark');
         }
@@ -22,11 +21,10 @@
             color: var(--tg-theme-text-color, #222222);
             -webkit-font-smoothing: antialiased;
         }
-        .bg-dino-green { background-color: #0b9363; }
-        .bg-dino-green:hover { background-color: #097d54; }
-        .text-dino-green { color: #0b9363; }
+        .bg-custom-blue { background-color: #1a73e8; }
+        .bg-custom-blue:hover { background-color: #155cb8; }
+        .text-custom-blue { color: #1a73e8; }
         
-        /* Стабильная анимация переключения экранов */
         .screen-container {
             display: flex;
             flex-direction: column;
@@ -61,18 +59,18 @@
                 </p>
 
                 <div class="grid grid-cols-2 gap-3.5 mb-3.5">
-                    <div onclick="switchScreen(2)" class="border border-emerald-500/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-emerald-50/10 dark:bg-emerald-950/10 hover:bg-emerald-50/20 transition active:scale-95 shadow-sm">
-                        <div class="w-11 h-11 bg-emerald-500 text-white rounded-xl flex items-center justify-center text-lg mb-2.5">
+                    <div onclick="switchScreen(2)" class="border border-blue-500/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-blue-50/10 dark:bg-blue-950/10 hover:bg-blue-50/20 transition active:scale-95 shadow-sm">
+                        <div class="w-11 h-11 bg-custom-blue text-white rounded-xl flex items-center justify-center text-lg mb-2.5">
                             <i class="fa-solid fa-mobile-screen-button"></i>
                         </div>
-                        <span class="font-bold text-emerald-600 dark:text-emerald-400 text-xs">iPhone/iPad</span>
+                        <span class="font-bold text-blue-600 dark:text-blue-400 text-xs">iPhone/iPad</span>
                     </div>
 
-                    <div onclick="switchScreen(3)" class="border border-emerald-500/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-emerald-50/10 dark:bg-emerald-950/10 hover:bg-emerald-50/20 transition active:scale-95 shadow-sm">
-                        <div class="w-11 h-11 bg-emerald-500 text-white rounded-xl flex items-center justify-center text-lg mb-2.5">
+                    <div onclick="switchScreen(3)" class="border border-blue-500/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-blue-50/10 dark:bg-blue-950/10 hover:bg-blue-50/20 transition active:scale-95 shadow-sm">
+                        <div class="w-11 h-11 bg-custom-blue text-white rounded-xl flex items-center justify-center text-lg mb-2.5">
                             <i class="fa-brands fa-android"></i>
                         </div>
-                        <span class="font-bold text-emerald-600 dark:text-emerald-400 text-xs">Android</span>
+                        <span class="font-bold text-blue-600 dark:text-blue-400 text-xs">Android</span>
                     </div>
 
                     <div onclick="showInDevelopment()" class="border border-gray-100 dark:border-zinc-800/50 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-gray-50/50 dark:bg-zinc-900/40 hover:bg-gray-100 dark:hover:bg-zinc-900/80 transition active:scale-95">
@@ -108,13 +106,13 @@
             <div>
                 <div class="flex justify-between items-center mb-5 mt-1">
                     <div class="flex items-center space-x-2">
-                        <div class="w-7 h-7 bg-emerald-700 rounded-full flex items-center justify-center text-white">
-                            <i class="fa-solid fa-dragon text-xs"></i>
+                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-bolt text-xs"></i>
                         </div>
-                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">Dino VPN</span>
+                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">VlessX VPN</span>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <button onclick="openSupport()" class="border border-emerald-100 dark:border-emerald-950/50 bg-emerald-50/60 dark:bg-emerald-950/20 rounded-full px-2.5 py-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center space-x-1 shadow-sm">
+                        <button onclick="openSupport()" class="border border-blue-100 dark:border-blue-950/50 bg-blue-50/60 dark:bg-blue-950/20 rounded-full px-2.5 py-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 flex items-center space-x-1 shadow-sm">
                             <i class="fa-solid fa-headset text-[10px]"></i> <span>Поддержка</span>
                         </button>
                         <button onclick="openInstruction('ios')" class="border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950 rounded-full px-2.5 py-1 text-[11px] font-bold text-sky-600 dark:text-sky-400 flex items-center space-x-1 shadow-sm">
@@ -131,7 +129,7 @@
                 </p>
 
                 <div class="bg-gray-100 dark:bg-zinc-900 p-1 rounded-full flex mb-3.5 border border-gray-200/40 dark:border-zinc-800/60">
-                    <button class="flex-1 bg-emerald-200 dark:bg-emerald-900 text-gray-900 dark:text-emerald-100 font-bold py-2 rounded-full text-[11px] flex items-center justify-center space-x-1 shadow-sm">
+                    <button class="flex-1 bg-blue-200 dark:bg-blue-900 text-gray-900 dark:text-blue-100 font-bold py-2 rounded-full text-[11px] flex items-center justify-center space-x-1 shadow-sm">
                         <span>Happ</span> <i class="fa-solid fa-star text-[9px]"></i>
                     </button>
                     <button onclick="showInDevelopment()" class="flex-1 text-gray-400 dark:text-zinc-500 font-bold py-2 rounded-full text-[11px]">
@@ -145,29 +143,29 @@
                 </div>
 
                 <div class="space-y-2.5">
-                    <button onclick="downloadApp('happ_ios')" class="w-full bg-dino-green text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
+                    <button onclick="downloadApp('happ_ios')" class="w-full bg-custom-blue text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
                         <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-3.5 flex-shrink-0">
                             <i class="fa-solid fa-download"></i>
                         </div>
                         <div>
                             <div class="font-bold text-[15px]">App Store (регион Россия)</div>
-                            <div class="text-[11px] text-emerald-100/70 mt-0.5">Happ для Apple ID Россия</div>
+                            <div class="text-[11px] text-blue-100/70 mt-0.5">Happ для Apple ID Россия</div>
                         </div>
                     </button>
 
-                    <button onclick="downloadApp('ios_other')" class="w-full bg-dino-green text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
+                    <button onclick="downloadApp('ios_other')" class="w-full bg-custom-blue text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
                         <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-3.5 flex-shrink-0">
                             <i class="fa-solid fa-download"></i>
                         </div>
                         <div>
                             <div class="font-bold text-[15px]">App Store (другой регион)</div>
-                            <div class="text-[11px] text-emerald-100/70 mt-0.5">Из магазина</div>
+                            <div class="text-[11px] text-blue-100/70 mt-0.5">Из магазина</div>
                         </div>
                     </button>
                 </div>
 
-                <p class="text-center text-[11px] text-gray-400 dark:text-zinc-500 mt-5 leading-normal">
-                    Установили приложение? <span class="text-dino-green font-bold">Нажмите «Я установил Happ»</span>
+                <p class="text-center text-[11px] text-gray-400 dark:text-zinc-500 mt-5 siding-normal">
+                    Установили приложение? <span class="text-custom-blue font-bold">Нажмите «Я установил Happ»</span>
                 </p>
             </div>
 
@@ -178,7 +176,7 @@
                 <button onclick="switchScreen(1)" class="flex-1 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
                     Назад
                 </button>
-                <button onclick="switchScreen(4)" class="flex-[1.5] bg-dino-green text-white font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                <button onclick="switchScreen(4)" class="flex-[1.5] bg-custom-blue text-white font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
                     Я установил Happ
                 </button>
             </div>
@@ -189,13 +187,13 @@
             <div>
                 <div class="flex justify-between items-center mb-5 mt-1">
                     <div class="flex items-center space-x-2">
-                        <div class="w-7 h-7 bg-emerald-700 rounded-full flex items-center justify-center text-white">
-                            <i class="fa-solid fa-dragon text-xs"></i>
+                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-bolt text-xs"></i>
                         </div>
-                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">Dino VPN</span>
+                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">VlessX VPN</span>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <button onclick="openSupport()" class="border border-emerald-100 dark:border-emerald-950/50 bg-emerald-50/60 dark:bg-emerald-950/20 rounded-full px-2.5 py-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center space-x-1 shadow-sm">
+                        <button onclick="openSupport()" class="border border-blue-100 dark:border-blue-950/50 bg-blue-50/60 dark:bg-blue-950/20 rounded-full px-2.5 py-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 flex items-center space-x-1 shadow-sm">
                             <i class="fa-solid fa-headset text-[10px]"></i> <span>Поддержка</span>
                         </button>
                         <button onclick="openInstruction('android')" class="border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950 rounded-full px-2.5 py-1 text-[11px] font-bold text-sky-600 dark:text-sky-400 flex items-center space-x-1 shadow-sm">
@@ -212,7 +210,7 @@
                 </p>
 
                 <div class="bg-gray-100 dark:bg-zinc-900 p-1 rounded-full flex mb-5 border border-gray-200/40 dark:border-zinc-800/60">
-                    <button class="flex-1 bg-emerald-200 dark:bg-emerald-900 text-gray-900 dark:text-emerald-100 font-bold py-2 rounded-full text-[11px] flex items-center justify-center space-x-1 shadow-sm">
+                    <button class="flex-1 bg-blue-200 dark:bg-blue-900 text-gray-900 dark:text-blue-100 font-bold py-2 rounded-full text-[11px] flex items-center justify-center space-x-1 shadow-sm">
                         <span>Happ</span> <i class="fa-solid fa-star text-[9px]"></i>
                     </button>
                     <button onclick="showInDevelopment()" class="flex-1 text-gray-400 dark:text-zinc-500 font-bold py-2 rounded-full text-[11px]">
@@ -221,13 +219,13 @@
                 </div>
 
                 <div class="space-y-2.5">
-                    <button onclick="downloadApp('happ_android_play')" class="w-full bg-dino-green text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
+                    <button onclick="downloadApp('happ_android_play')" class="w-full bg-custom-blue text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
                         <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-3.5 flex-shrink-0">
                             <i class="fa-brands fa-google-play"></i>
                         </div>
                         <div>
                             <div class="font-bold text-[15px]">Скачать из Google Play</div>
-                            <div class="text-[11px] text-emerald-100/70 mt-0.5">Официальный магазин приложений Android</div>
+                            <div class="text-[11px] text-blue-100/70 mt-0.5">Официальный магазин приложений Android</div>
                         </div>
                     </button>
 
@@ -236,14 +234,14 @@
                             <i class="fa-solid fa-file-invoice text-base"></i>
                         </div>
                         <div>
-                            <div class="font-bold text-[15px]">Скачать прямой .APK file</div>
+                            <div class="font-bold text-[15px]">Скачать прямой .APK файл</div>
                             <div class="text-[11px] text-zinc-300 mt-0.5">Быстрая установка (если нет Google Play)</div>
                         </div>
                     </button>
                 </div>
 
-                <p class="text-center text-[11px] text-gray-400 dark:text-zinc-500 mt-6 leading-normal">
-                    Установили приложение? <span class="text-dino-green font-bold">Нажмите «Я установил Happ»</span>
+                <p class="text-center text-[11px] text-gray-400 dark:text-zinc-500 mt-6 siding-normal">
+                    Установили приложение? <span class="text-custom-blue font-bold">Нажмите «Я установил Happ»</span>
                 </p>
             </div>
 
@@ -254,7 +252,7 @@
                 <button onclick="switchScreen(1)" class="flex-1 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
                     Назад
                 </button>
-                <button onclick="switchScreen(4)" class="flex-[1.5] bg-dino-green text-white font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                <button onclick="switchScreen(4)" class="flex-[1.5] bg-custom-blue text-white font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
                     Я установил Happ
                 </button>
             </div>
@@ -265,10 +263,10 @@
             <div>
                 <div class="flex justify-between items-center mb-5 mt-1">
                     <div class="flex items-center space-x-2">
-                        <div class="w-7 h-7 bg-emerald-700 rounded-full flex items-center justify-center text-white">
-                            <i class="fa-solid fa-dragon text-xs"></i>
+                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-bolt text-xs"></i>
                         </div>
-                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">Dino VPN</span>
+                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">VlessX VPN</span>
                     </div>
                 </div>
 
@@ -279,11 +277,11 @@
                     Нажмите кнопку ниже, чтобы активировать VPN.
                 </p>
 
-                <button onclick="activateVPN()" class="w-full bg-dino-green hover:bg-[#097d54] text-white font-bold py-4 rounded-2xl text-[15px] shadow-md transition active:scale-[0.98] mb-8">
+                <button onclick="activateVPN()" class="w-full bg-custom-blue hover:bg-[#155cb8] text-white font-bold py-4 rounded-2xl text-[15px] shadow-md transition active:scale-[0.98] mb-8">
                     Активировать VPN
                 </button>
 
-                <p class="text-center text-gray-400 dark:text-zinc-500 text-[13px] italic px-4 leading-normal mb-10">
+                <p class="text-center text-gray-400 dark:text-zinc-500 text-[13px] italic px-4 siding-normal mb-10">
                     После активации выберите нужную страну в приложении
                 </p>
 
@@ -304,7 +302,7 @@
             </div>
 
             <div class="mt-6 w-full">
-                <button onclick="goBackToDeviceScreen()" class="w-full border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                <button onclick="goBackToDeviceScreen()" class="w-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
                     Назад
                 </button>
             </div>
@@ -332,7 +330,7 @@
 
         let lastDeviceScreen = 1;
 
-        // CONFIG: Вставь сюда юзернейм своего бота БЕЗ знака @
+        // Настройки ссылок
         const LINKS = {
             happStoreIos: 'https://apps.apple.com/ru/app/happ-v2ray-client/id6450634081',
             iosOtherStore: 'https://apps.apple.com/us/app/incy-v2ray-client/id6474620025',
@@ -343,10 +341,10 @@
             happAndroidApk: 'https://github.com/путь_к_твоему_apk/happ.apk',
             androidInstruction: 'https://t.me/твой_канал/пост_android',
 
-            vpnConfigLink: 'vless://твой_ключ_подключения_vpn',
+            // Твоя прямая ссылка на репозиторий со списком серверов
+            vpnSubscriptionLink: 'https://raw.githubusercontent.com/agf30rus/ffff/main/servers.txt',
 
-            // ПОДДЕРЖКА: Измени на юзернейм твоего бота поддержки (без @)
-            support: 'VlessX_Support_Bot'
+            support: 'DinoVpnSupportBot'
         };
 
         function switchScreen(screenNumber) {
@@ -375,7 +373,9 @@
         }
 
         function activateVPN() {
-            webApp.openLink(LINKS.vpnConfigLink);
+            // Формируем глубокую ссылку для импорта подписки под новым именем "VlessX VPN"
+            const subUrl = 'happ://add-sub?url=' + encodeURIComponent(LINKS.vpnSubscriptionLink) + '&name=' + encodeURIComponent('VlessX VPN');
+            webApp.openLink(subUrl);
         }
 
         function downloadApp(type) {
