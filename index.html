@@ -72,7 +72,7 @@
                     <span class="font-semibold text-gray-400 dark:text-zinc-500 text-xs">Android TV / Apple TV</span>
                 </div>
             </div>
-            <button class="w-full border border-sky-100 dark:border-sky-950/40 bg-sky-50/50 dark:bg-sky-950/20 text-sky-600 dark:text-sky-400 font-bold py-4 rounded-2xl text-xs transition active:scale-[0.99]"><i class="fa-regular fa-copy mr-1.5"></i> Подключить дополнительное устройство</button>
+            <button onclick="showInDevelopment()" class="w-full border border-sky-100 dark:border-sky-950/40 bg-sky-50/50 dark:bg-sky-950/20 text-sky-600 dark:text-sky-400 font-bold py-4 rounded-2xl text-xs transition active:scale-[0.99]"><i class="fa-regular fa-copy mr-1.5"></i> Подключить дополнительное устройство</button>
         </div>
 
         <div id="screen-2" class="screen-container screen-inactive flex-1 flex flex-col justify-between">
@@ -172,9 +172,9 @@
                     </div>
                 </div>
                 <h2 class="text-[23px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-1.5">Шаг 2. Активация</h2>
-                <p class="text-gray-400 dark:text-zinc-400 text-[14px] mb-8">Нажмите кнопку ниже, чтобы активировать VPN.</p>
+                <p class="text-gray-400 dark:text-zinc-400 text-[14px] mb-8">Нажмите кнопку ниже, чтобы автоматически добавить подписку в приложение Happ.</p>
                 <button onclick="activateVPN()" class="w-full bg-custom-blue hover:bg-[#155cb8] text-white font-bold py-4 rounded-2xl text-[15px] shadow-md transition active:scale-[0.98] mb-8">Активировать VPN</button>
-                <p class="text-center text-gray-400 dark:text-zinc-500 text-[13px] italic px-4 leading-normal mb-10">После активации выберите нужную страну в приложении</p>
+                <p class="text-center text-gray-400 dark:text-zinc-500 text-[13px] italic px-4 leading-normal mb-10">После добавления нажмите кнопку обновления внутри приложения Happ</p>
                 <div class="w-full">
                     <button onclick="openSupport()" class="w-full border border-red-200 dark:border-red-950/40 bg-red-50/40 dark:bg-red-950/10 text-red-500 dark:text-red-400 font-bold py-3.5 rounded-2xl text-xs transition active:scale-[0.99] flex items-center justify-center space-x-2"><i class="fa-regular fa-circle-question text-sm"></i><span>VPN не работает</span></button>
                 </div>
@@ -198,7 +198,10 @@
         const webApp = window.Telegram.WebApp;
         webApp.ready();
         webApp.expand();
+        
         let lastDeviceScreen = 1;
+        
+        // Прямые ссылки на твои ресурсы
         const LINKS = {
             happStoreIos: 'https://apps.apple.com/ru/app/happ-v2ray-client/id6450634081',
             iosOtherStore: 'https://apps.apple.com/us/app/incy-v2ray-client/id6474620025',
@@ -210,6 +213,7 @@
             vpnSubscriptionLink: 'https://raw.githubusercontent.com/agf30rus/ffff/main/servers.txt',
             support: 'DinoVpnSupportBot'
         };
+
         function switchScreen(screenNumber) {
             if (screenNumber === 2 || screenNumber === 3) lastDeviceScreen = screenNumber;
             const screens = {
@@ -226,11 +230,15 @@
                 }
             });
         }
+
         function goBackToDeviceScreen() { switchScreen(lastDeviceScreen); }
+
         function activateVPN() {
+            // Команда добавления подписки напрямую в Happ Plus через ссылку на твой GitHub
             const subUrl = 'happ://add-sub?url=' + encodeURIComponent(LINKS.vpnSubscriptionLink) + '&name=' + encodeURIComponent('VlessX VPN');
             webApp.openLink(subUrl);
         }
+
         function downloadApp(type) {
             let url = '';
             if (type === 'happ_ios') url = LINKS.happStoreIos;
@@ -239,6 +247,7 @@
             else if (type === 'happ_android_apk') url = LINKS.happAndroidApk;
             if (url) webApp.openLink(url);
         }
+
         function openInstruction(platform) {
             let url = '';
             if (platform === 'ios') url = LINKS.iosInstruction;
@@ -246,13 +255,17 @@
             else if (platform === 'android') url = LINKS.androidInstruction;
             if (url) webApp.openLink(url);
         }
+
         function openSupport() { webApp.openTelegramLink('https://t.me/' + LINKS.support); }
+        
         function showInDevelopment() { webApp.showAlert("Этот раздел сейчас находится в разработке."); }
+
         function showQRCode(platform) {
             const modal = document.getElementById('qr-modal');
             const qrTitle = document.getElementById('qr-title');
             const qrDesc = document.getElementById('qr-desc');
             const qrImage = document.getElementById('qr-image');
+            
             if (platform === 'ios') {
                 qrTitle.innerText = "Скачать Happ на iOS";
                 qrDesc.innerText = "Сканируйте код камерой iPhone для перехода в App Store";
@@ -262,9 +275,11 @@
                 qrDesc.innerText = "Сканируйте код для перехода к скачиванию приложения";
                 qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(LINKS.happAndroidPlay);
             }
+            
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.remove('opacity-0', 'pointer-events-none'), 10);
         }
+
         function hideQRCode() {
             const modal = document.getElementById('qr-modal');
             modal.classList.add('opacity-0', 'pointer-events-none');
