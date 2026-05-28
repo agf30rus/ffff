@@ -14,46 +14,53 @@
         <h1>Добро пожаловать в админку VPN!</h1>
         <p>Этот текст видите только вы, так как вы админ.</p>
     </div>
+        <button id="vpn-btn" style="background: #1a73e8; color: white; border: none; border-radius: 12px; padding: 16px 20px; font-size: 16px; font-weight: bold; width: 100%; max-width: 400px; cursor: pointer; margin-top: 20px;">
+        Активировать VPN
+    </button>
+
+    <p style="color: #777777; font-size: 12px; margin-top: 15px; text-align: center;">
+        После добавления нажмите кнопку обновления внутри приложения Happ
+    </p>
 
     <script>
-    <!-- Кнопка в HTML-разметке твоего мини-приложения -->
-<button id="activate-vpn-btn" class="vpn-button">Активировать VPN</button>
+        // Инициализируем Telegram WebApp
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
 
-<script>
-  // Твоя прямая Raw-ссылка на подписку
-  const subscriptionUrl = 'https://raw.githubusercontent.com/agf30rus/ffff/refs/heads/main/subscription.txt';
+        // Твоя прямая Raw-ссылка на подписку
+        const subscriptionUrl = 'https://raw.githubusercontent.com/agf30rus/ffff/refs/heads/main/subscription.txt';
 
-  document.getElementById('activate-vpn-btn').addEventListener('click', () => {
-    // 1. Копируем Raw-ссылку в буфер обмена устройства
-    navigator.clipboard.writeText(subscriptionUrl).then(() => {
-      
-      // Проверяем, открыто ли приложение внутри Telegram, чтобы использовать нативное окно
-      if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showAlert(
-          'Ссылка на подписку успешно скопирована!\n\nСейчас откроется VPN-клиент. Если автоматический импорт не начнется, просто выберите "Импорт из буфера обмена" внутри приложения.'
-        );
-      } else {
-        alert('Ссылка скопирована в буфер обмена!');
-      }
+        // Вешаем событие клика на кнопку vpn-btn
+        document.getElementById('vpn-btn').addEventListener('click', () => {
+            // Копируем ссылку в буфер обмена телефона
+            navigator.clipboard.writeText(subscriptionUrl).then(() => {
+                
+                if (tg) {
+                    // Нативный алерт внутри ТГ
+                    tg.showAlert(
+                        'Ссылка на подписку скопирована в буфер обмена!\n\nСейчас откроется VPN-клиент. Если импорт не начался автоматически, нажмите кнопку "Добавить из буфера" в приложении Happ.', 
+                        () => {
+                            // Открываем Happ через диплинк после нажатия на "ОК"
+                            window.location.href = `clash://install-config?url=${encodeURIComponent(subscriptionUrl)}`;
+                        }
+                    );
+                } else {
+                    // Если тестируешь через обычный браузер на ПК
+                    alert('Ссылка скопирована в буфер обмена!');
+                    window.location.href = `clash://install-config?url=${encodeURIComponent(subscriptionUrl)}`;
+                }
 
-      // 2. Делаем небольшую паузу в 1.5 секунды, чтобы пользователь успел прочитать алерт,
-      // и запускаем диплинк для автоматического открытия HAP Plus / Hiddify / Streisand
-      setTimeout(() => {
-        // Кодируем URL, чтобы спецсимволы в ссылке не сломали диплинк
-        const deeplink = `clash://install-config?url=${encodeURIComponent(subscriptionUrl)}`;
-        window.location.href = deeplink;
-      }, 1500);
-
-    }).catch(err => {
-      console.error('Не удалось автоматически скопировать ссылку: ', err);
-      // Запасной вариант, если браузер заблокировал автоматическое копирование
-      if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showAlert('Не удалось скопировать автоматически. Ссылка для ручного копирования:\n\n' + subscriptionUrl);
-      }
-    });
-  });
-</script>
-
+            }).catch(err => {
+                console.error('Ошибка копирования: ', err);
+                if (tg) {
+                    tg.showAlert('Не удалось скопировать автоматически. Скопируй вручную:\n\n' + subscriptionUrl);
+                }
+            });
+        });
+    </script>
         // Инициализируем Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.ready();
