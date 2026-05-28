@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AST VPN</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0f0f12;
+            --card-bg: #16161a;
+            --card-border: #222227;
+            --text-main: #ffffff;
+            --text-muted: #7d7d85;
+            --accent-blue: #2f80ed;
+            --accent-green: #27ae60;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            padding-bottom: 100px; /* Отступ, чтобы контент не перекрывался нижним меню */
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* Контейнер экранов (вкладки) */
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Твои фирменные карточки */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 0;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Элементы внутри карточек */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        .info-value.green {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        /* Оригинальные кнопки из твоего дизайна */
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: background 0.15s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.99);
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: #202024;
+            border: 1px solid #2d2d34;
+            color: var(--text-main);
+        }
+
+        /* Под-вкладки операционных систем (iOS / Android / PC) */
+        .os-tabs {
+            display: flex;
+            background: #1b1b1f;
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 16px;
+            border: 1px solid #25252b;
+        }
+
+        .os-tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.15s;
+        }
+
+        .os-tab-btn.active {
+            background: #2c2c35;
+            color: var(--text-main);
+        }
+
+        .os-content {
+            display: none;
+        }
+
+        .os-content.active {
+            display: block;
+        }
+
+        /* Инструкция (Шаги) */
+        .step-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .step-number {
+            background: #25252b;
+            color: var(--accent-blue);
+            min-width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .step-text h4 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .step-text p {
+            margin: 0;
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* МЕНЮ НАВИГАЦИИ (Твой оригинальный нижний таб-бар) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111113;
+            border-top: 1px solid #1f1f24;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0px)) 0;
+            z-index: 9999;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #5d5d66;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 33.33%;
+            transition: color 0.15s;
+        }
+
+        .nav-btn .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-btn.active {
+            color: var(--accent-blue);
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--card-border);
+            margin: 14px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scr-profile" class="screen active">
+        <div class="card">
+            <h3 class="card-title">Мой аккаунт</h3>
+            <div class="info-row">
+                <span class="info-label">Пользователь:</span>
+                <span class="info-value" id="tg-name">Загрузка...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Telegram ID:</span>
+                <span class="info-value" id="tg-id">000000000</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Статус подписки:</span>
+                <span class="info-value green">Активна</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">До конца подписки:</span>
+                <span class="info-value">30 дней</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Баланс</h3>
+            <div class="info-row">
+                <span class="info-label">Доступно средств:</span>
+                <span class="info-value green" style="font-size: 17px;">0.00 ₽</span>
+            </div>
+            <button class="btn" style="margin-top: 12px;" onclick="switchMainTab('nav-instructions')">🚀 Купить VPN (Тарифы)</button>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Быстрый старт</h3>
+            <p style="margin: 0 0 14px 0; font-size: 14px; color: var(--text-muted); line-height: 1.4;">
+                Если вы запускаете VPN первый раз, перейдите в раздел инструкций для настройки клиента.
+            </p>
+            <button class="btn btn-secondary" onclick="switchMainTab('nav-instructions')">📲 Инструкция по установке</button>
+        </div>
+    </div>
+
+
+    <div id="scr-instructions" class="screen">
+        <div class="os-tabs">
+            <button class="os-tab-btn active" onclick="switchOsTab('os-ios', this)">iOS (iPhone)</button>
+            <button class="os-tab-btn" onclick="switchOsTab('os-android', this)">Android</button>
+            <button class="os-tab-btn" onclick="switchOsTab('os-pc', this)">Windows / PC</button>
+        </div>
+
+        <div id="os-ios" class="os-content active">
+            <div class="card">
+                <h3 class="card-title">Шаг 1. Установка утилиты</h3>
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <h4>Скачайте клиент Happ</h4>
+                        <p>Установите официальное приложение из App Store на ваш iPhone.</p>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="openExternalLink('https://apps.apple.com/ru/app/happ-proxy-utility/id6504247484')">🍏 Скачать Happ из App Store</button>
+            </div>
+        </div>
+
+        <div id="os-android" class="os-content">
+            <div class="card">
+                <h3 class="card-title">Шаг 1. Установка утилиты</h3>
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <h4>Скачайте клиент Hiddify</h4>
+                        <p>Установите официальное приложение из Google Play Маркета.</p>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="openExternalLink('https://play.google.com/store/apps/details?id=app.hiddify.com')">🤖 Скачать Hiddify из Google Play</button>
+            </div>
+        </div>
+
+        <div id="os-pc" class="os-content">
+            <div class="card">
+                <h3 class="card-title">Шаг 1. Установка на компьютер</h3>
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <h4>Скачайте Hiddify Next</h4>
+                        <p>Скачайте официальный установщик для вашей операционной системы Windows.</p>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="openExternalLink('https://github.com/hiddify/hiddify-next/releases')">💻 Скачать клиент для Windows</button>
+            </div>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h3 class="card-title" style="text-align: left;">Шаг 2. Запуск конфигурации</h3>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; text-align: left; line-height: 1.4;">
+                После того как приложение установлено на ваше устройство, перейдите к экрану активации ключей.
+            </p>
+            <button class="btn" onclick="switchMainTab('nav-activation')">Перейти к Активации ➡️</button>
+        </div>
+    </div>
+
+
+    <div id="scr-activation" class="screen">
+        <div class="card">
+            <h3 class="card-title">Активация прокси серверов</h3>
+            
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                    <h4>Импорт подписки</h4>
+                    <p>Нажмите синюю кнопку ниже. Ссылка на конфигурацию скопируется, и Мини-апп запустит импорт в ваше VPN-приложение.</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <button class="btn" id="main-activate-btn">🔥 АКТИВИРОВАТЬ VPN</button>
+
+            <p style="font-size: 11.5px; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.4;">
+                ⚠️ Обязательно: после открытия Happ нажмите кнопку 🔄 (Обновить) внутри приложения, чтобы прогрузить свежие ключи.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Служба поддержки</h3>
+            <button class="btn btn-secondary" onclick="openExternalLink('https://t.me/agf30rus')">💬 Написать в поддержку</button>
+        </div>
+    </div>
+
+
+    <div class="bottom-nav">
+        <button class="nav-btn active" id="nav-profile" onclick="switchMainTab('nav-profile')">
+            <span class="nav-icon">👤</span>
+            <span>Профиль</span>
+        </button>
+        <button class="nav-btn" id="nav-instructions" onclick="switchMainTab('nav-instructions')">
+            <span class="nav-icon">📲</span>
+            <span>Инструкция</span>
+        </button>
+        <button class="nav-btn" id="nav-activation" onclick="switchMainTab('nav-activation')">
+            <span class="nav-icon">🔑</span>
+            <span>Активация</span>
+        </button>
+    </div>
+
+
+    <script>
+        // Инициализация Telegram WebApp API
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            
+            // Получаем реальные данные пользователя
+            if (tg.initDataUnsafe?.user) {
+                document.getElementById('tg-name').innerText = tg.initDataUnsafe.user.first_name || 'Пользователь';
+                document.getElementById('tg-id').innerText = tg.initDataUnsafe.user.id || '000000000';
+            }
+        }
+
+        // Твоя прямая обновляемая Raw-ссылка на подписку из репозитория ffff
+        const rawSubscriptionUrl = 'https://raw.githubusercontent.com/agf30rus/ffff/refs/heads/main/subscription.txt';
+
+        // 1. ЛОГИКА ДЛЯ ПЕРЕКЛЮЧЕНИЯ ОСНОВНЫХ СТРАНИЦ (НИЖНЕЕ МЕНЮ)
+        function switchMainTab(tabId) {
+            // Убираем активный статус у кнопок меню
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            // Скрываем все экраны
+            document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
+
+            // Включаем выбранную вкладку меню
+            document.getElementById(tabId).classList.add('active');
+
+            // Показываем соответствующий экран контента
+            if (tabId === 'nav-profile') document.getElementById('scr-profile').addActive();
+            if (tabId === 'nav-instructions') document.getElementById('scr-instructions').addActive();
+            if (tabId === 'nav-activation') document.getElementById('scr-activation').addActive();
+        }
+
+        // Вспомогательный мини-прототип для удобства
+        HTMLElement.prototype.addActive = function() {
+            this.classList.add('active');
+            window.scrollTo(0, 0); // Авто-скролл вверх при переходе
+        };
+
+
+        // 2. ЛОГИКА ДЛЯ ПЕРЕКЛЮЧЕНИЯ ПОД-ВКЛАДОК ОПЕРАЦИОННЫХ СИСТЕМ (iOS / Android / PC)
+        function switchOsTab(osId, element) {
+            // Очищаем активные кнопки ОС
+            document.querySelectorAll('.os-tab-btn').forEach(btn => btn.classList.remove('active'));
+            // Скрываем тексты инструкций ОС
+            document.querySelectorAll('.os-content').forEach(content => content.classList.remove('active'));
+
+            // Активируем кликнутую кнопку и её блок контента
+            element.classList.add('active');
+            document.getElementById(osId).classList.add('active');
+        }
+
+
+        // 3. ЛОГИКА ДЛЯ ТВОЕЙ КНОПКИ «АКТИВИРОВАТЬ VPN»
+        document.getElementById('main-activate-btn').addEventListener('click', () => {
+            // Копируем Raw-ссылку в буфер обмена телефона
+            navigator.clipboard.writeText(rawSubscriptionUrl).then(() => {
+                
+                if (tg) {
+                    // Выводим красивое нативное сообщение внутри Telegram
+                    tg.showAlert(
+                        'Ссылка на подписку успешно скопирована!\n\nСейчас откроется VPN-клиент. Если автоматический импорт не начался, выберите "Импорт из буфера обмена" в приложении Happ.', 
+                        () => {
+                            // Перенаправляем пользователя по диплинку сразу после закрытия алерта
+                            window.location.href = `clash://install-config?url=${encodeURIComponent(rawSubscriptionUrl)}`;
+                        }
+                    );
+                } else {
+                    // Если тестируешь в обычном браузере
+                    alert('Ссылка скопирована!');
+                    window.location.href = `clash://install-config?url=${encodeURIComponent(rawSubscriptionUrl)}`;
+                }
+
+            }).catch(err => {
+                console.error('Ошибка копирования ссылки: ', err);
+                if (tg) {
+                    tg.showAlert('Не удалось скопировать автоматически. Вот ссылка для ручного добавления:\n\n' + rawSubscriptionUrl);
+                }
+            });
+        });
+
+
+        // Нативные методы открытия внешних ссылок (чтобы корректно открывались маркеты)
+        function openExternalLink(url) {
+            if (tg) {
+                tg.openLink(url);
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
