@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>vlessX VPN - iOS</title>
+    <!-- Подключаем иконки Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #12161c; /* Черно-серый фон страницы */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0);
+            background-size: 24px 24px;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background-color: #000000; /* Чистый черный цвет карточки */
+            width: 100%;
+            max-width: 400px;
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+        }
+
+        /* --- ЗАГОЛОВОК --- */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff; /* Текст бренда теперь белый на черном фоне */
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #007AFF; /* Иконка бренда синяя */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000; /* Цвет самой молнии внутри */
+        }
+
+        .instruction-btn {
+            background-color: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: #007AFF; /* Синий цвет текста инструкции */
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* --- ТЕКСТ ШАГА --- */
+        .step-title {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: left;
+            margin-bottom: 6px;
+        }
+
+        .step-subtitle {
+            color: #8593a6;
+            font-size: 14px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* --- СТАТИЧНАЯ ИНСТРУКЦИЯ (НОВЫЙ БЛОК) --- */
+        .static-guide-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2d3748;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .guide-step {
+            margin-bottom: 8px;
+        }
+
+        .guide-step b {
+            font-weight: 600;
+        }
+
+        /* --- ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК (ОСТАВЛЯЕМ ДЛЯ INCY) --- */
+        .tabs-container {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid #2d3748;
+            padding: 4px;
+            border-radius: 14px;
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .tab.active {
+            background-color: #007AFF; /* Синий цвет активной вкладки */
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* --- ИНФОРМАЦИОННЫЙ ЗНАЧОК --- */
+        .info-badge {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid #2d3748;
+            padding: 8px 16px;
+            border-radius: 12px;
+            color: #8593a6;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* --- КНОПКИ СКАЧИВАНИЯ (СИНИЕ И ВЫДЕЛЕННЫЕ) --- */
+        .download-btn {
+            background-color: transparent;
+            border: 2px solid #007AFF; /* Яркая синяя граница, как на скриншоте */
+            border-radius: 18px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: transform 0.1s, background-color 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .download-btn:active {
+            background-color: rgba(0, 122, 255, 0.1);
+            transform: scale(0.99);
+        }
+
+        /* Подсветка для кнопок скачивания */
+        .download-btn.highlighted {
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.4);
+        }
+
+        .dl-icon-box {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 122, 255, 0.15); /* Прозрачный синий фон иконки */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007AFF; /* Сама иконка синяя */
+        }
+
+        .dl-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .dl-main {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .dl-sub {
+            font-size: 12px;
+            color: #8e8e93; /* Цвет подзаголовка как в iOS */
+            margin-top: 2px;
+        }
+
+        /* --- ТЕКСТ-ПОДСКАЗКА --- */
+        .hint-text {
+            color: #8593a6;
+            font-size: 13px;
+            text-align: center;
+            margin: 20px 0;
+            line-height: 1.4;
+        }
+
+        .hint-text span {
+            color: #007AFF;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* --- НИЖНЯЯ ПАНЕЛЬ ДЕЙСТВИЙ --- */
+        .bottom-actions {
+            border-top: 1px solid #2d3748;
+            padding-top: 16px;
+            display: grid;
+            grid-template-columns: 54px 1fr; /* QR и кнопка действия */
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Кнопка QR внизу слева (синяя, выделенная границей) */
+        .qr-connect-btn {
+            background-color: transparent;
+            border: 2px solid #007AFF;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007AFF;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .qr-connect-btn:active {
+            background-color: rgba(0, 122, 255, 0.1);
+        }
+
+        /* Кнопка "Я установил..." (синяя, выделенная границей) */
+        .success-action-btn {
+            background-color: transparent;
+            border: 2px solid #007AFF;
+            height: 48px;
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: normal;
+            line-height: 1.2;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .success-action-btn:active {
+            background-color: rgba(0, 122, 255, 0.1);
+        }
+
+        /* Скрытые по умолчанию контейнеры под каждую вкладку */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* --- ВСПЛЫВАЮЩЕЕ ОКНО QR (ДЛЯ ПРИМЕРА) --- */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .qr-modal.active { display: flex; }
+        .qr-modal-content {
+            background-color: #1a202c;
+            padding: 24px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #2d3748;
+        }
+        .qr-modal-content h3 { color: #ffffff; margin-bottom: 16px; }
+        .qr-modal-content img { width: 200px; height: 200px; margin-bottom: 16px; }
+        .close-modal {
+            color: #007AFF;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="screen-instruction">
+            
+            <div class="header-row">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i data-lucide="zap" size="14" fill="#000000"></i>
+                    </div>
+                    <span>vlessX VPN</span>
+                </div>
+                <div class="instruction-btn">
+                    <i data-lucide="help-circle" size="14"></i>
+                    <span>Инструкция</span>
+                </div>
+            </div>
+
+            <h2 class="step-title">Шаг 1. Установка приложения</h2>
+            <p class="step-subtitle">Выберите приложение для iPhone/iPad и скачайте его.</p>
+
+            <!-- --- СТАТИЧНАЯ ИНСТРУКЦИЯ (ЗАМЕНА АНИМАЦИИ) --- -->
+            <div class="static-guide-box">
+                <div class="guide-step"><b>Шаг 1.</b> Скачайте приложение</div>
+                <div class="guide-step"><b>Шаг 2.</b> Нажмите «Я установил Happ»</div>
+            </div>
+
+            <!-- Переключатель вкладок Happ и INCY -->
+            <div class="tabs-container">
+                <div class="tab active" id="tab-happ" onclick="switchAppTab('happ')">Happ ★</div>
+                <div class="tab" id="tab-incy" onclick="switchAppTab('incy')">INCY</div>
+            </div>
+
+            <div class="info-badge">
+                <i data-lucide="info" size="14"></i>
+                <span>В чем разница приложений?</span>
+            </div>
+
+            <!-- Блок контента для HAPP -->
+            <div id="content-happ" class="tab-content active">
+                <a href="https://apps.apple.com/ru/app/happ-proxy/id6475217431" target="_blank" class="download-btn highlighted">
+                    <div class="dl-icon-box">
+                        <i data-lucide="download" size="20"></i>
+                    </div>
+                    <div class="dl-text">
+                        <span class="dl-main">App Store (регион Россия)</span>
+                        <span class="dl-sub">Happ для Apple ID Россия</span>
+                    </div>
+                </a>
+
+                <a href="https://apps.apple.com/us/app/happ-proxy/id6475217431" target="_blank" class="download-btn highlighted">
+                    <div class="dl-icon-box">
+                        <i data-lucide="download" size="20"></i>
+                    </div>
+                    <div class="dl-text">
+                        <span class="dl-main">App Store (другой регион)</span>
+                        <span class="dl-sub">Из магазина</span>
+                    </div>
+                </a>
+
+                <p class="hint-text">Установили приложение? <span>Нажмите «Я установил Happ»</span></p>
+                
+                <div class="bottom-actions">
+                    <!-- Кнопка QR внизу слева -->
+                    <div class="qr-connect-btn" onclick="toggleQrModal()">
+                        <i data-lucide="qr-code" size="24"></i>
+                    </div>
+                    <!-- Кнопка действия синяя -->
+                    <button class="success-action-btn">Я установил<br>Happ</button>
+                </div>
+            </div>
+
+            <!-- Блок контента для INCY -->
+            <div id="content-incy" class="tab-content">
+                <a href="https://apps.apple.com/ru/app/incy-provider/id6474147043" target="_blank" class="download-btn highlighted">
+                    <div class="dl-icon-box">
+                        <i data-lucide="download" size="20"></i>
+                    </div>
+                    <div class="dl-text">
+                        <span class="dl-main">INCY из App Store</span>
+                        <span class="dl-sub">Из магазина</span>
+                    </div>
+                </a>
+
+                <p class="hint-text">Установили приложение? <span>Нажмите «Я установил INCY»</span></p>
+                
+                <div class="bottom-actions">
+                    <!-- Кнопка QR внизу слева -->
+                    <div class="qr-connect-btn" onclick="toggleQrModal()">
+                        <i data-lucide="qr-code" size="24"></i>
+                    </div>
+                    <!-- Кнопка действия синяя -->
+                    <button class="success-action-btn">Я установил<br>INCY</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Модальное окно QR -->
+    <div id="qr-modal" class="qr-modal">
+        <div class="qr-modal-content">
+            <h3>QR-код для подключения</h3>
+            <!-- Пример QR -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=vless://example" alt="vless QR code">
+            <p class="close-modal" onclick="toggleQrModal()">Закрыть</p>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchAppTab(appName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            if(appName === 'happ') {
+                document.getElementById('tab-happ').classList.add('active');
+                document.getElementById('content-happ').classList.add('active');
+            } else {
+                document.getElementById('tab-incy').classList.add('active');
+                document.getElementById('content-incy').classList.add('active');
+            }
+        }
+
+        function toggleQrModal() {
+            document.getElementById('qr-modal').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
