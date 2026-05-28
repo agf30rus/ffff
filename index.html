@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Dino VPN Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        // Автоматическое определение темной темы Telegram
+        if (window.Telegram?.WebApp?.colorScheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            -webkit-font-smoothing: antialiased;
+        }
+        .bg-dino-green { background-color: #0b9363; }
+        .bg-dino-green:hover { background-color: #097d54; }
+        .text-dino-green { color: #0b9363; }
+        
+        /* Стабильная анимация переключения экранов */
+        .screen-container {
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            width: 100%;
+        }
+        .screen-active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+        .screen-inactive {
+            opacity: 0;
+            transform: translateX(15px);
+            pointer-events: none;
+            position: absolute;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body class="p-4 min-h-screen flex flex-col justify-start dark:bg-[#111111]">
+
+    <div class="w-full max-w-md mx-auto bg-white dark:bg-[#1c1c1e] rounded-[28px] p-5 shadow-sm border border-gray-100 dark:border-zinc-800/80 mt-2 min-h-[82vh] flex flex-col justify-between relative overflow-hidden">
+        
+        <div id="screen-1" class="screen-container screen-active flex-1 flex flex-col justify-between">
+            <div>
+                <h2 class="text-[25px] font-bold text-center text-gray-900 dark:text-white tracking-tight mb-1 mt-4">
+                    Выберите устройство
+                </h2>
+                <p class="text-gray-400 dark:text-zinc-400 text-center text-[14px] px-6 leading-normal mb-6">
+                    Выберите ваше устройство для настройки подключения
+                </p>
+
+                <div class="grid grid-cols-2 gap-3.5 mb-3.5">
+                    <div onclick="switchScreen(2)" class="border border-emerald-500/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-emerald-50/10 dark:bg-emerald-950/10 hover:bg-emerald-50/20 transition active:scale-95 shadow-sm">
+                        <div class="w-11 h-11 bg-emerald-500 text-white rounded-xl flex items-center justify-center text-lg mb-2.5">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <span class="font-bold text-emerald-600 dark:text-emerald-400 text-xs">iPhone/iPad</span>
+                    </div>
+
+                    <div onclick="switchScreen(3)" class="border border-emerald-500/20 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-emerald-50/10 dark:bg-emerald-950/10 hover:bg-emerald-50/20 transition active:scale-95 shadow-sm">
+                        <div class="w-11 h-11 bg-emerald-500 text-white rounded-xl flex items-center justify-center text-lg mb-2.5">
+                            <i class="fa-brands fa-android"></i>
+                        </div>
+                        <span class="font-bold text-emerald-600 dark:text-emerald-400 text-xs">Android</span>
+                    </div>
+
+                    <div onclick="showInDevelopment()" class="border border-gray-100 dark:border-zinc-800/50 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-gray-50/50 dark:bg-zinc-900/40 hover:bg-gray-100 dark:hover:bg-zinc-900/80 transition active:scale-95">
+                        <div class="w-11 h-11 bg-gray-100 dark:bg-zinc-800 rounded-xl flex items-center justify-center text-gray-400 text-lg mb-2.5">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <span class="font-semibold text-gray-400 dark:text-zinc-500 text-xs">Windows</span>
+                    </div>
+
+                    <div onclick="showInDevelopment()" class="border border-gray-100 dark:border-zinc-800/50 rounded-2xl p-5 flex flex-col items-center justify-center cursor-pointer bg-gray-50/50 dark:bg-zinc-900/40 hover:bg-gray-100 dark:hover:bg-zinc-900/80 transition active:scale-95">
+                        <div class="w-11 h-11 bg-gray-100 dark:bg-zinc-800 rounded-xl flex items-center justify-center text-gray-400 text-lg mb-2.5">
+                            <i class="fa-brands fa-apple"></i>
+                        </div>
+                        <span class="font-semibold text-gray-400 dark:text-zinc-500 text-xs">macOS</span>
+                    </div>
+                </div>
+
+                <div onclick="showInDevelopment()" class="border border-gray-100 dark:border-zinc-800/50 rounded-2xl p-3.5 flex items-center justify-center space-x-3 mb-6 bg-gray-50/50 dark:bg-zinc-900/40 hover:bg-gray-100 dark:hover:bg-zinc-900/80 transition cursor-pointer">
+                    <div class="w-9 h-9 bg-gray-100 dark:bg-zinc-800 rounded-xl flex items-center justify-center text-gray-400 text-base">
+                        <i class="fa-solid fa-tv"></i>
+                    </div>
+                    <span class="font-semibold text-gray-400 dark:text-zinc-500 text-xs">Android TV / Apple TV</span>
+                </div>
+            </div>
+
+            <button class="w-full border border-sky-100 dark:border-sky-950/40 bg-sky-50/50 dark:bg-sky-950/20 text-sky-600 dark:text-sky-400 font-bold py-4 rounded-2xl text-xs transition active:scale-[0.99]">
+                <i class="fa-regular fa-copy mr-1.5"></i> Подключить дополнительное устройство
+            </button>
+        </div>
+
+
+        <div id="screen-2" class="screen-container screen-inactive flex-1 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center mb-5 mt-1">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-7 h-7 bg-emerald-700 rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-dragon text-xs"></i>
+                        </div>
+                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">Dino VPN</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <button onclick="openSupport()" class="border border-emerald-100 dark:border-emerald-950/50 bg-emerald-50/60 dark:bg-emerald-950/20 rounded-full px-2.5 py-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center space-x-1 shadow-sm">
+                            <i class="fa-solid fa-headset text-[10px]"></i> <span>Поддержка</span>
+                        </button>
+                        <button onclick="openInstruction('ios')" class="border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950 rounded-full px-2.5 py-1 text-[11px] font-bold text-sky-600 dark:text-sky-400 flex items-center space-x-1 shadow-sm">
+                            <span class="text-sky-500 font-extrabold">?</span> <span>Инструкция</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h2 class="text-[23px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-1.5">
+                    Шаг 1. Установка приложения
+                </h2>
+                <p class="text-gray-400 dark:text-zinc-400 text-[14px] mb-4">
+                    Выберите приложение для iPhone/iPad и скачайте его.
+                </p>
+
+                <div class="bg-gray-100 dark:bg-zinc-900 p-1 rounded-full flex mb-3.5 border border-gray-200/40 dark:border-zinc-800/60">
+                    <button class="flex-1 bg-emerald-200 dark:bg-emerald-900 text-gray-900 dark:text-emerald-100 font-bold py-2 rounded-full text-[11px] flex items-center justify-center space-x-1 shadow-sm">
+                        <span>Happ</span> <i class="fa-solid fa-star text-[9px]"></i>
+                    </button>
+                    <button onclick="showInDevelopment()" class="flex-1 text-gray-400 dark:text-zinc-500 font-bold py-2 rounded-full text-[11px]">
+                        INCY
+                    </button>
+                </div>
+
+                <div onclick="openInstruction('ios_diff')" class="bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-100 dark:border-zinc-800/60 rounded-2xl py-2.5 px-4 flex items-center justify-center space-x-2 mb-5 shadow-sm cursor-pointer hover:bg-gray-100 transition">
+                    <span class="bg-blue-500 text-white text-[9px] w-3.5 h-3.5 rounded-md flex items-center justify-center font-bold">i</span>
+                    <span class="text-gray-600 dark:text-zinc-400 text-xs font-semibold">В чем разница приложений?</span>
+                </div>
+
+                <div class="space-y-2.5">
+                    <button onclick="downloadApp('happ_ios')" class="w-full bg-dino-green text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
+                        <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-3.5 flex-shrink-0">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-[15px]">App Store (регион Россия)</div>
+                            <div class="text-[11px] text-emerald-100/70 mt-0.5">Happ для Apple ID Россия</div>
+                        </div>
+                    </button>
+
+                    <button onclick="downloadApp('ios_other')" class="w-full bg-dino-green text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
+                        <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-3.5 flex-shrink-0">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-[15px]">App Store (другой регион)</div>
+                            <div class="text-[11px] text-emerald-100/70 mt-0.5">Из магазина</div>
+                        </div>
+                    </button>
+                </div>
+
+                <p class="text-center text-[11px] text-gray-400 dark:text-zinc-500 mt-5 leading-normal">
+                    Установили приложение? <span class="text-dino-green font-bold">Нажмите «Я установил Happ»</span>
+                </p>
+            </div>
+
+            <div class="flex items-center space-x-2.5 mt-6 w-full">
+                <button onclick="showQRCode('ios')" class="border border-gray-200 dark:border-zinc-700 text-gray-400 dark:text-zinc-500 p-3.5 rounded-xl bg-white dark:bg-zinc-800 shadow-sm active:scale-95 transition">
+                    <i class="fa-solid fa-qrcode text-base"></i>
+                </button>
+                <button onclick="switchScreen(1)" class="flex-1 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                    Назад
+                </button>
+                <button onclick="switchScreen(4)" class="flex-[1.5] bg-dino-green text-white font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                    Я установил Happ
+                </button>
+            </div>
+        </div>
+
+
+        <div id="screen-3" class="screen-container screen-inactive flex-1 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center mb-5 mt-1">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-7 h-7 bg-emerald-700 rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-dragon text-xs"></i>
+                        </div>
+                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">Dino VPN</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <button onclick="openSupport()" class="border border-emerald-100 dark:border-emerald-950/50 bg-emerald-50/60 dark:bg-emerald-950/20 rounded-full px-2.5 py-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center space-x-1 shadow-sm">
+                            <i class="fa-solid fa-headset text-[10px]"></i> <span>Поддержка</span>
+                        </button>
+                        <button onclick="openInstruction('android')" class="border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950 rounded-full px-2.5 py-1 text-[11px] font-bold text-sky-600 dark:text-sky-400 flex items-center space-x-1 shadow-sm">
+                            <span class="text-sky-500 font-extrabold">?</span> <span>Инструкция</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h2 class="text-[23px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-1.5">
+                    Шаг 1. Установка приложения
+                </h2>
+                <p class="text-gray-400 dark:text-zinc-400 text-[14px] mb-4">
+                    Выберите удобный способ установки приложения Happ для Android.
+                </p>
+
+                <div class="bg-gray-100 dark:bg-zinc-900 p-1 rounded-full flex mb-5 border border-gray-200/40 dark:border-zinc-800/60">
+                    <button class="flex-1 bg-emerald-200 dark:bg-emerald-900 text-gray-900 dark:text-emerald-100 font-bold py-2 rounded-full text-[11px] flex items-center justify-center space-x-1 shadow-sm">
+                        <span>Happ</span> <i class="fa-solid fa-star text-[9px]"></i>
+                    </button>
+                    <button onclick="showInDevelopment()" class="flex-1 text-gray-400 dark:text-zinc-500 font-bold py-2 rounded-full text-[11px]">
+                        Happ+
+                    </button>
+                </div>
+
+                <div class="space-y-2.5">
+                    <button onclick="downloadApp('happ_android_play')" class="w-full bg-dino-green text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99]">
+                        <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-3.5 flex-shrink-0">
+                            <i class="fa-brands fa-google-play"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-[15px]">Скачать из Google Play</div>
+                            <div class="text-[11px] text-emerald-100/70 mt-0.5">Официальный магазин приложений Android</div>
+                        </div>
+                    </button>
+
+                    <button onclick="downloadApp('happ_android_apk')" class="w-full bg-zinc-800 dark:bg-zinc-700 text-white p-3.5 rounded-2xl flex items-center text-left shadow-sm transition active:scale-[0.99] hover:bg-zinc-900">
+                        <div class="bg-white/10 w-10 h-10 rounded-xl flex items-center justify-center text-lg mr-3.5 flex-shrink-0">
+                            <i class="fa-solid fa-file-invoice text-base"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-[15px]">Скачать прямой .APK file</div>
+                            <div class="text-[11px] text-zinc-300 mt-0.5">Быстрая установка (если нет Google Play)</div>
+                        </div>
+                    </button>
+                </div>
+
+                <p class="text-center text-[11px] text-gray-400 dark:text-zinc-500 mt-6 leading-normal">
+                    Установили приложение? <span class="text-dino-green font-bold">Нажмите «Я установил Happ»</span>
+                </p>
+            </div>
+
+            <div class="flex items-center space-x-2.5 mt-6 w-full">
+                <button onclick="showQRCode('android')" class="border border-gray-200 dark:border-zinc-700 text-gray-400 dark:text-zinc-500 p-3.5 rounded-xl bg-white dark:bg-zinc-800 shadow-sm active:scale-95 transition">
+                    <i class="fa-solid fa-qrcode text-base"></i>
+                </button>
+                <button onclick="switchScreen(1)" class="flex-1 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                    Назад
+                </button>
+                <button onclick="switchScreen(4)" class="flex-[1.5] bg-dino-green text-white font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                    Я установил Happ
+                </button>
+            </div>
+        </div>
+
+
+        <div id="screen-4" class="screen-container screen-inactive flex-1 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center mb-5 mt-1">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-7 h-7 bg-emerald-700 rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-dragon text-xs"></i>
+                        </div>
+                        <span class="font-bold text-gray-800 dark:text-zinc-100 text-sm">Dino VPN</span>
+                    </div>
+                </div>
+
+                <h2 class="text-[23px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-1.5">
+                    Шаг 2. Активация
+                </h2>
+                <p class="text-gray-400 dark:text-zinc-400 text-[14px] mb-8">
+                    Нажмите кнопку ниже, чтобы активировать VPN.
+                </p>
+
+                <button onclick="activateVPN()" class="w-full bg-dino-green hover:bg-[#097d54] text-white font-bold py-4 rounded-2xl text-[15px] shadow-md transition active:scale-[0.98] mb-8">
+                    Активировать VPN
+                </button>
+
+                <p class="text-center text-gray-400 dark:text-zinc-500 text-[13px] italic px-4 leading-normal mb-10">
+                    После активации выберите нужную страну в приложении
+                </p>
+
+                <div class="w-full">
+                    <button onclick="openSupport()" class="w-full border border-red-200 dark:border-red-950/40 bg-red-50/40 dark:bg-red-950/10 text-red-500 dark:text-red-400 font-bold py-3.5 rounded-2xl text-xs transition active:scale-[0.99] flex items-center justify-center space-x-2">
+                        <i class="fa-regular fa-circle-question text-sm"></i>
+                        <span>VPN не работает</span>
+                    </button>
+                    <p class="text-center text-gray-400 dark:text-zinc-500 text-[11px] font-medium mt-2 mb-6">
+                        Среднее время ответа техподдержки: 5 минут
+                    </p>
+                </div>
+
+                <div onclick="switchScreen(1)" class="flex items-center justify-center space-x-2 py-2 cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-zinc-300 transition">
+                    <i class="fa-solid fa-mobile-screen text-xs"></i>
+                    <span class="text-xs font-semibold">Подключить другое устройство</span>
+                </div>
+            </div>
+
+            <div class="mt-6 w-full">
+                <button onclick="goBackToDeviceScreen()" class="w-full border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-3.5 rounded-xl text-xs transition active:scale-95">
+                    Назад
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="qr-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 hidden">
+        <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl border border-gray-100 dark:border-zinc-800 mx-4">
+            <h3 id="qr-title" class="text-gray-900 dark:text-white font-bold text-lg mb-2">Сканируйте QR-код</h3>
+            <p id="qr-desc" class="text-gray-400 dark:text-zinc-400 text-xs mb-4">Откройте камеру телефона для скачивания приложения</p>
+            <div class="bg-white p-3 rounded-2xl inline-block border border-gray-100 mb-4">
+                <img id="qr-image" src="" alt="QR Code" class="w-36 h-36">
+            </div>
+            <button onclick="hideQRCode()" class="w-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold py-2.5 rounded-xl text-xs transition active:scale-95">
+                Закрыть
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const webApp = window.Telegram.WebApp;
+        webApp.ready();
+        webApp.expand();
+
+        let lastDeviceScreen = 1;
+
+        // CONFIG: Вставь сюда юзернейм своего бота БЕЗ знака @
+        const LINKS = {
+            happStoreIos: 'https://apps.apple.com/ru/app/happ-v2ray-client/id6450634081',
+            iosOtherStore: 'https://apps.apple.com/us/app/incy-v2ray-client/id6474620025',
+            iosInstruction: 'https://t.me/твой_канал/пост_ios',
+            iosDiffInstruction: 'https://t.me/твой_канал/пост_разница_ios',
+            
+            happAndroidPlay: 'https://play.google.com/store/apps/details?id=com.happ.client',
+            happAndroidApk: 'https://github.com/путь_к_твоему_apk/happ.apk',
+            androidInstruction: 'https://t.me/твой_канал/пост_android',
+
+            vpnConfigLink: 'vless://твой_ключ_подключения_vpn',
+
+            // ПОДДЕРЖКА: Измени на юзернейм твоего бота поддержки (без @)
+            support: 'DinoVpnSupportBot'
+        };
+
+        function switchScreen(screenNumber) {
+            if (screenNumber === 2 || screenNumber === 3) {
+                lastDeviceScreen = screenNumber;
+            }
+
+            const screens = {
+                1: document.getElementById('screen-1'),
+                2: document.getElementById('screen-2'),
+                3: document.getElementById('screen-3'),
+                4: document.getElementById('screen-4')
+            };
+
+            Object.keys(screens).forEach(num => {
+                if (parseInt(num) === screenNumber) {
+                    screens[num].classList.replace('screen-inactive', 'screen-active');
+                } else {
+                    screens[num].classList.replace('screen-active', 'screen-inactive');
+                }
+            });
+        }
+
+        function goBackToDeviceScreen() {
+            switchScreen(lastDeviceScreen);
+        }
+
+        function activateVPN() {
+            webApp.openLink(LINKS.vpnConfigLink);
+        }
+
+        function downloadApp(type) {
+            let url = '';
+            if (type === 'happ_ios') url = LINKS.happStoreIos;
+            else if (type === 'ios_other') url = LINKS.iosOtherStore;
+            else if (type === 'happ_android_play') url = LINKS.happAndroidPlay;
+            else if (type === 'happ_android_apk') url = LINKS.happAndroidApk;
+            
+            if (url) webApp.openLink(url);
+        }
+
+        function openInstruction(platform) {
+            let url = '';
+            if (platform === 'ios') url = LINKS.iosInstruction;
+            else if (platform === 'ios_diff') url = LINKS.iosDiffInstruction;
+            else if (platform === 'android') url = LINKS.androidInstruction;
+
+            if (url) webApp.openLink(url);
+        }
+
+        function openSupport() {
+            webApp.openTelegramLink('https://t.me/' + LINKS.support);
+        }
+
+        function showInDevelopment() {
+            webApp.showAlert("Этот раздел сейчас находится в разработке и будет доступен в ближайшем обновлении.");
+        }
+
+        function showQRCode(platform) {
+            const modal = document.getElementById('qr-modal');
+            const qrTitle = document.getElementById('qr-title');
+            const qrDesc = document.getElementById('qr-desc');
+            const qrImage = document.getElementById('qr-image');
+
+            if (platform === 'ios') {
+                qrTitle.innerText = "Скачать Happ на iOS";
+                qrDesc.innerText = "Сканируйте код камерой iPhone для перехода в App Store";
+                qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(LINKS.happStoreIos);
+            } else if (platform === 'android') {
+                qrTitle.innerText = "Скачать Happ на Android";
+                qrDesc.innerText = "Сканируйте код для перехода к скачиванию приложения";
+                qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(LINKS.happAndroidPlay);
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0', 'pointer-events-none'), 10);
+        }
+
+        function hideQRCode() {
+            const modal = document.getElementById('qr-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+    </script>
+</body>
+</html>
