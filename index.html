@@ -553,9 +553,15 @@
             document.getElementById('screen-devices').classList.add('active');
         }
 
-        // Профессиональный текст для неактивных платформ
-        function showDevelopmentMessage() {
-            alert("Данная функция находится в разработке. Мы уже работаем над её запуском!");
+        javascript// Профессиональный текст для неактивных платформ
+function showDevelopmentMessage() {
+    Swal.fire({
+        title: 'Готовим к запуску',
+        text: 'Совсем скоро вы сможете настроить это устройство.',
+        confirmButtonText: 'Понятно', // Здесь ваш текст кнопки
+        confirmButtonColor: '#3085d6' // Цвет кнопки
+    });
+}
         }
 
         // Логика работы табов (Happ / INCY)
