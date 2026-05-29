@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>vlessX VPN</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #000000; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; overflow-x: hidden; }
+        .container { background-color: #161b22; width: 100%; max-width: 400px; border-radius: 28px; padding: 24px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.06); position: relative; }
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.25s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h1 { color: #ffffff; font-size: 24px; font-weight: 600; margin-bottom: 8px; text-align: center; }
+        .subtitle { color: #8593a6; font-size: 15px; line-height: 1.4; margin-bottom: 28px; text-align: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .card { background-color: rgba(255, 255, 255, 0.02); border: 1px solid #2d3748; border-radius: 18px; padding: 18px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        .card:active { background-color: #2d3748; }
+        .icon-wrapper { width: 42px; height: 42px; background-color: rgba(0, 122, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #007AFF; }
+        .card-title { color: #ffffff; font-size: 14px; font-weight: 500; }
+        .full-card { background-color: rgba(255, 255, 255, 0.02); border: 1px solid #2d3748; border-radius: 18px; padding: 14px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; margin-bottom: 28px; }
+        .divider { height: 1px; background-color: #2d3748; margin-bottom: 24px; }
+        .action-button { background-color: rgba(0, 122, 255, 0.12); border: 1px solid rgba(0, 122, 255, 0.3); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; color: #007AFF; font-size: 15px; font-weight: 500; cursor: pointer; }
+        
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .brand { display: flex; align-items: center; gap: 8px; color: #ffffff; font-weight: 600; font-size: 17px; }
+        .brand-icon { width: 24px; height: 24px; background-color: #007AFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000000; }
+        .instruction-btn { background-color: rgba(0, 122, 255, 0.1); border: 1px solid rgba(0, 122, 255, 0.2); padding: 6px 14px; border-radius: 20px; color: #007AFF; font-size: 14px; display: flex; align-items: center; gap: 4px; }
+        
+        .static-instruction-box { background-color: #ffffff; border-radius: 16px; padding: 16px; margin-bottom: 20px; color: #000000; font-size: 14px; }
+        .tabs-container { background-color: rgba(255, 255, 255, 0.03); border: 1px solid #2d3748; padding: 4px; border-radius: 14px; display: flex; margin-bottom: 12px; }
+        .tab { flex: 1; padding: 10px; text-align: center; color: #ffffff; font-size: 14px; font-weight: 500; border-radius: 10px; cursor: pointer; }
+        .tab.active { background-color: #007AFF; color: #ffffff; }
+        
+        .download-btn { background-color: transparent; border: 2px solid #007AFF; border-radius: 18px; padding: 14px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; margin-bottom: 12px; color: #ffffff; text-decoration: none; }
+        .dl-icon-box { width: 40px; height: 40px; background-color: rgba(0, 122, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #007AFF; }
+        .dl-text { display: flex; flex-direction: column; text-align: left; }
+        .dl-main { font-size: 15px; font-weight: 600; }
+        .dl-sub { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+        .hint-text { color: #8593a6; font-size: 13px; text-align: center; margin: 20px 0; }
+        
+        .bottom-actions { border-top: 1px solid #2d3748; padding-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .text-btn { background-color: transparent; border: 1px solid #2d3748; height: 48px; border-radius: 14px; color: #ffffff; font-weight: 500; cursor: pointer; }
+        .success-btn { background-color: transparent; border: 2px solid #007AFF; height: 48px; border-radius: 14px; color: #ffffff; font-weight: 600; cursor: pointer; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="screen-devices" class="screen active">
+            <h1>Выберите устройство</h1>
+            <p class="subtitle">Выберите ваше устройство для<br>настройки подключения</p>
+            <div class="grid">
+                <div class="card" onclick="openInstruction()"><div class="icon-wrapper"><i data-lucide="smartphone"></i></div><span class="card-title">iPhone/iPad</span></div>
+                <div class="card" onclick="showDevelopmentMessage()"><div class="icon-wrapper"><i data-lucide="smartphone-charging"></i></div><span class="card-title">Android</span></div>
+                <div class="card" onclick="showDevelopmentMessage()"><div class="icon-wrapper"><i data-lucide="monitor"></i></div><span class="card-title">Windows</span></div>
+                <div class="card" onclick="showDevelopmentMessage()"><div class="icon-wrapper"><i data-lucide="laptop"></i></div><span class="card-title">macOS</span></div>
+            </div>
+            <div class="full-card" onclick="showDevelopmentMessage()"><div class="icon-wrapper"><i data-lucide="tv"></i></div><span class="card-title">Android TV / Apple TV</span></div>
+        </div>
+
+        <div id="screen-instruction" class="screen">
+            <div class="header-row">
+                <div class="brand"><div class="brand-icon"><i data-lucide="zap" size="14" fill="#000000"></i></div><span>vlessX VPN</span></div>
+                <div class="instruction-btn"><i data-lucide="help-circle" size="14"></i><span>Инструкция</span></div>
+            </div>
+            <h2 style="color:white; margin-bottom: 6px;">Шаг 1. Установка</h2>
+            <div class="static-instruction-box"><b>Шаг 1.</b> Скачайте приложение<br><b>Шаг 2.</b> Нажмите «Я установил Happ»</div>
+            <div class="tabs-container"><div class="tab active" id="tab-happ" onclick="switchAppTab('happ')">Happ ★</div><div class="tab" id="tab-incy" onclick="switchAppTab('incy')">INCY</div></div>
+            
+            <div id="content-happ" class="tab-content active">
+                <a href="https://apps.apple.com/ru/app/happ-proxy/id6475217431" target="_blank" class="download-btn"><div class="dl-icon-box"><i data-lucide="download"></i></div><div class="dl-text"><span class="dl-main">App Store (Россия)</span><span class="dl-sub">Happ для Apple ID Россия</span></div></a>
+                <p class="hint-text">Установили приложение? <span>Нажмите «Я установил Happ»</span></p>
+                <div class="bottom-actions"><button class="text-btn" onclick="closeInstruction()">Назад</button><button class="success-btn" onclick="showActivation()">Я установил Happ</button></div>
+            </div>
+
+            <div id="content-incy" class="tab-content">
+                <a href="https://apps.apple.com/ru/app/incy-provider/id6474147043" target="_blank" class="download-btn"><div class="dl-icon-box"><i data-lucide="download"></i></div><div class="dl-text"><span class="dl-main">INCY из App Store</span></div></a>
+                <p class="hint-text">Установили приложение? <span>Нажмите «Я установил INCY»</span></p>
+                <div class="bottom-actions"><button class="text-btn" onclick="closeInstruction()">Назад</button><button class="success-btn">Я установил INCY</button></div>
+            </div>
+        </div>
+
+        <div id="screen-activation" class="screen">
+            <div style="background-color: #ffffff; border-radius: 24px; padding: 24px; color: #000000;">
+                <h2 style="font-size: 22px; margin-bottom: 8px;">Шаг 2. Активация</h2>
+                <p style="font-size: 14px; margin-bottom: 20px;">Нажмите кнопку ниже, чтобы активировать VPN.</p>
+                <button style="background-color: #00a86b; color: #ffffff; width: 100%; padding: 16px; border-radius: 16px; border: none; font-weight: 600; cursor: pointer; margin-bottom: 16px;">Активировать VPN</button>
+                <button style="background-color: #fff5f5; color: #d63031; border: 1px solid #fab1a0; width: 100%; padding: 12px; border-radius: 12px; cursor: pointer; margin-bottom: 12px;">VPN не работает</button>
+                <button onclick="closeActivation()" style="background: none; border: 1px solid #ddd; width: 100%; padding: 12px; border-radius: 12px; cursor: pointer;">Назад</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function openInstruction() { document.getElementById('screen-devices').classList.remove('active'); document.getElementById('screen-instruction').classList.add('active'); }
+        function closeInstruction() { document.getElementById('screen-instruction').classList.remove('active'); document.getElementById('screen-devices').classList.add('active'); }
+        function showActivation() { document.getElementById('screen-instruction').classList.remove('active'); document.getElementById('screen-activation').classList.add('active'); }
+        function closeActivation() { document.getElementById('screen-activation').classList.remove('active'); document.getElementById('screen-instruction').classList.add('active'); }
+        function showDevelopmentMessage() { alert("Данная платформа находится в разработке. Мы уже работаем над её запуском!"); }
+        function switchAppTab(appName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            if(appName === 'happ') { document.getElementById('tab-happ').classList.add('active'); document.getElementById('content-happ').classList.add('active'); }
+            else { document.getElementById('tab-incy').classList.add('active'); document.getElementById('content-incy').classList.add('active'); }
+        }
+    </script>
+</body>
+</html>
