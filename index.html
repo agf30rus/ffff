@@ -3,52 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dino VPN</title>
+    <title>Dino VPN App</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-
     <div id="app">
         <div id="screen-1" class="screen active">
             <h1>Выберите устройство</h1>
-            <p class="subtitle">Выберите ваше устройство для настройки подключения</p>
+            <p>Выберите ваше устройство для настройки подключения</p>
             <div class="grid">
-                <button class="device-btn">iPhone/iPad</button>
-                <button class="device-btn">Android</button>
-                <button class="device-btn">Windows</button>
-                <button class="device-btn">macOS</button>
+                <button onclick="showScreen(2)">iPhone/iPad</button>
+                <button onclick="showScreen(2)">Android</button>
+                <button onclick="showScreen(2)">Windows</button>
+                <button onclick="showScreen(2)">macOS</button>
             </div>
-            <button class="device-btn full-width">Android TV / Apple TV</button>
+            <button class="full-width">Android TV / Apple TV</button>
         </div>
 
         <div id="screen-2" class="screen">
             <h1>Шаг 1. Установка</h1>
-            <p class="subtitle">Выберите приложение для iPhone/iPad и скачайте его.</p>
-            <button class="main-btn" onclick="showScreen(3)">Я установил Happ</button>
-            <button class="back-btn" onclick="showScreen(1)">Назад</button>
+            <button class="main-action" onclick="showScreen(3)">Я установил Happ</button>
+            <button onclick="showScreen(1)">Назад</button>
         </div>
-    </div>
-<div id="app">
-    <div id="screen-1" class="screen active">
-        <div class="card">
-            <h1>Выберите устройство</h1>
-            <p class="subtitle">Выберите ваше устройство для настройки подключения</p>
-            
-            <div class="grid">
-                <button class="device-btn">iPhone/iPad</button>
-                <button class="device-btn">Android</button>
-                <button class="device-btn">Windows</button>
-                <button class="device-btn">macOS</button>
-            </div>
-            
-            <button class="device-btn full-width">Android TV / Apple TV</button>
-            
-            <button class="extra-btn">Подключить дополнительное устройство</button>
-        </div>
-    </div>
-</div>
 
+        <div id="screen-3" class="screen">
+            <h1>Шаг 2. Активация</h1>
+            <button class="main-action">Активировать VPN</button>
+            <button onclick="showScreen(2)">Назад</button>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
