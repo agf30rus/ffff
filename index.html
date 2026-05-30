@@ -4,65 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dino VPN</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #333; }
-        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .screen { display: none; }
-        .active { display: block; }
-        .btn { display: block; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; text-align: center; margin-bottom: 10px; }
-        .btn-main { background: #007bff; color: white; }
-        .btn-back { background: #f0f0f0; color: #555; }
-        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .device-card { border: 1px solid #eef; padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; }
-        h2 { margin-top: 0; }
-    </style>
 </head>
 <body>
 
-<div id="screen-1" class="screen active">
-    <h2>Выберите устройство</h2>
-    <div class="option-grid">
-        <div class="device-card" onclick="showScreen('screen-2')">📱 iPhone</div>
-        <div class="device-card" onclick="showScreen('screen-2')">🤖 Android</div>
-        <div class="device-card" onclick="showScreen('screen-2')">💻 Windows</div>
-        <div class="device-card" onclick="showScreen('screen-2')">🍎 macOS</div>
+    <div id="app">
+        <div id="screen-1" class="screen active">
+            <h1>Выберите устройство</h1>
+            <p class="subtitle">Выберите ваше устройство для настройки подключения</p>
+            <div class="grid">
+                <button class="device-btn">iPhone/iPad</button>
+                <button class="device-btn">Android</button>
+                <button class="device-btn">Windows</button>
+                <button class="device-btn">macOS</button>
+            </div>
+            <button class="device-btn full-width">Android TV / Apple TV</button>
+        </div>
+
+        <div id="screen-2" class="screen">
+            <h1>Шаг 1. Установка</h1>
+            <p class="subtitle">Выберите приложение для iPhone/iPad и скачайте его.</p>
+            <button class="main-btn" onclick="showScreen(3)">Я установил Happ</button>
+            <button class="back-btn" onclick="showScreen(1)">Назад</button>
+        </div>
     </div>
-    <div class="device-card" style="margin-top:10px" onclick="showScreen('screen-tv')">📺 TV</div>
-    <button class="btn btn-main" style="margin-top:20px" onclick="showScreen('screen-extra')">Подключить доп. устройство</button>
-</div>
 
-<div id="screen-2" class="screen">
-    <h2>Шаг 1. Установка</h2>
-    <div class="card">
-        <p>Скачайте приложение для вашего устройства.</p>
-        <button class="btn btn-main">Скачать из App Store</button>
-    </div>
-    <button class="btn btn-back" onclick="showScreen('screen-1')">Назад</button>
-</div>
-
-<div id="screen-3" class="screen">
-    <h2>Шаг 2. Активация</h2>
-    <button class="btn btn-main" onclick="alert('VPN Активирован!')">Активировать VPN</button>
-    <button class="btn btn-back" onclick="showScreen('screen-1')">Назад</button>
-</div>
-
-<div id="screen-tv" class="screen">
-    <h2>Настройка TV</h2>
-    <input type="text" placeholder="Введите код" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ccc;">
-    <button class="btn btn-main" style="margin-top:10px">Отправить подписку</button>
-    <button class="btn btn-back" onclick="showScreen('screen-1')">Назад</button>
-</div>
-
-<script>
-    // Инициализация Telegram WebApp
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
-    function showScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(screenId).classList.add('active');
-    }
-</script>
+    <script src="script.js"></script>
 </body>
 </html>
