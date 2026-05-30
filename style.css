@@ -1,9 +1,8 @@
 :root {
     --bg-dark: #0a0a0c;
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --accent-green: #00ff85; /* Яркий неоновый зеленый */
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --accent-green: #00ff85;
     --text-main: #ffffff;
-    --text-sec: #a0a0a0;
 }
 
 body {
@@ -16,14 +15,14 @@ body {
 
 .card {
     background: var(--card-bg);
-    backdrop-filter: blur(20px); /* Эффект матового стекла */
+    backdrop-filter: blur(20px); /* Матовое стекло */
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 30px;
-    padding: 25px;
-    margin-top: 10px;
+    padding: 24px;
+    margin: 0 auto;
+    max-width: 500px;
 }
-
-h1 { font-size: 22px; text-align: center; margin-bottom: 8px; }
 
 .device-btn {
     background: rgba(255, 255, 255, 0.03);
@@ -32,16 +31,21 @@ h1 { font-size: 22px; text-align: center; margin-bottom: 8px; }
     border-radius: 20px;
     padding: 20px;
     transition: 0.3s;
+    text-align: center;
 }
 
-.device-btn:active { background: var(--accent-green); color: #000; }
+.device-btn:active { 
+    background: var(--accent-green); 
+    color: #000; 
+}
 
 .action-btn-green {
-    background: linear-gradient(135deg, #00ff85, #00b35c);
+    background: var(--accent-green);
     border: none;
     border-radius: 20px;
     padding: 18px;
-    color: black;
+    color: #000;
     font-weight: bold;
     width: 100%;
+    margin-top: 15px;
 }
