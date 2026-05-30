@@ -2,66 +2,50 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>vlessX VPN</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino VPN Setup</title>
     <style>
-        /* ... (Ваши оригинальные стили остаются здесь) ... */
-        /* Добавляем стили для новых кнопок в стиле вашего дизайна */
-        .activate-btn {
-            background-color: #00a86b;
-            color: #ffffff;
-            border: none;
-            width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-        .error-btn {
-            background-color: transparent;
-            border: 1px solid #ff453a;
-            color: #ff453a;
-            width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            font-size: 15px;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
+        body { font-family: sans-serif; background: #f4f6f8; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; width: 100%; max-width: 400px; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .screen { display: none; }
+        .active { display: block; }
+        .card { border: 1px solid #e0e0e0; padding: 15px; border-radius: 12px; margin: 10px 0; cursor: pointer; text-align: center; }
+        .card:hover { border-color: #007bff; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 10px; background: #007bff; color: white; cursor: pointer; margin-top: 10px; }
+        .back-btn { background: #e0e0e0; color: #333; }
+        h2 { text-align: center; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="screen-activation" class="screen">
-            <h1 style="margin-top: 10px;">Шаг 2. Активация</h1>
-            <p class="subtitle">Нажмите кнопку ниже, чтобы<br>активировать VPN.</p>
-            
-            <a href="ВАША_ССЫЛКА_АКТИВАЦИИ" class="activate-btn">Активировать VPN</a>
-            
-            <p style="color: #8593a6; font-size: 13px; text-align: center; margin-bottom: 24px;">
-                После активации выберите нужную страну в приложении
-            </p>
 
-            <button class="error-btn" onclick="showDevelopmentMessage()">
-                <i data-lucide="help-circle" style="vertical-align: middle; margin-right: 8px;" size="16"></i>
-                VPN не работает
-            </button>
-            
-            <button class="text-btn" style="width: 100%;" onclick="closeInstruction()">Назад</button>
-        </div>
+<div class="container">
+    <div id="screen-home" class="screen active">
+        <h2>Выберите устройство</h2>
+        <div class="card" onclick="showScreen('screen-ios')">iPhone/iPad</div>
+        <div class="card" onclick="showScreen('screen-android')">Android</div>
+        <button onclick="showScreen('screen-extra')">Подключить доп. устройство</button>
     </div>
 
-    <script>
-        lucide.createIcons();
-        // ... (Ваши функции остаются без изменений)
-        function showActivation() {
-            document.getElementById('screen-instruction').classList.remove('active');
-            document.getElementById('screen-activation').classList.add('active');
-        }
-    </script>
+    <div id="screen-ios" class="screen">
+        <h2>Шаг 1: Установка</h2>
+        <p>Скачайте приложение для iPhone/iPad</p>
+        <button class="back-btn" onclick="showScreen('screen-home')">Назад</button>
+    </div>
+
+    <div id="screen-extra" class="screen">
+        <h2>Подключить устройство</h2>
+        <p>Отсканируйте QR-код:</p>
+        <div style="text-align:center; padding:20px; border:1px dashed #ccc;">[QR CODE HERE]</div>
+        <button class="back-btn" onclick="showScreen('screen-home')">Назад</button>
+    </div>
+</div>
+
+<script>
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+</script>
+
 </body>
 </html>
