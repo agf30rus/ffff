@@ -1,26 +1,47 @@
+:root {
+    --bg-dark: #0a0a0c;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --accent-green: #00ff85; /* Яркий неоновый зеленый */
+    --text-main: #ffffff;
+    --text-sec: #a0a0a0;
+}
+
 body {
-    background-color: #000;
-    color: #fff;
-    font-family: sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
     padding: 20px;
 }
 
-.screen { display: none; }
-.screen.active { display: block; }
-
-button {
-    background: transparent;
-    border: 1px solid #fff;
-    color: #fff;
-    padding: 15px;
-    border-radius: 12px;
-    margin: 5px;
-    cursor: pointer;
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px); /* Эффект матового стекла */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 25px;
+    margin-top: 10px;
 }
 
-.main-action {
-    background-color: #2ea44f;
+h1 { font-size: 22px; text-align: center; margin-bottom: 8px; }
+
+.device-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 20px;
+    padding: 20px;
+    transition: 0.3s;
+}
+
+.device-btn:active { background: var(--accent-green); color: #000; }
+
+.action-btn-green {
+    background: linear-gradient(135deg, #00ff85, #00b35c);
     border: none;
+    border-radius: 20px;
+    padding: 18px;
+    color: black;
+    font-weight: bold;
     width: 100%;
 }
