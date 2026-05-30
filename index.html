@@ -1,38 +1,11 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dino VPN App</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
-    <div id="app">
-        <div id="screen-1" class="screen active">
-            <h1>Выберите устройство</h1>
-            <p>Выберите ваше устройство для настройки подключения</p>
-            <div class="grid">
-                <button onclick="showScreen(2)">iPhone/iPad</button>
-                <button onclick="showScreen(2)">Android</button>
-                <button onclick="showScreen(2)">Windows</button>
-                <button onclick="showScreen(2)">macOS</button>
-            </div>
-            <button class="full-width">Android TV / Apple TV</button>
-        </div>
-
-        <div id="screen-2" class="screen">
-            <h1>Шаг 1. Установка</h1>
-            <button class="main-action" onclick="showScreen(3)">Я установил Happ</button>
-            <button onclick="showScreen(1)">Назад</button>
-        </div>
-
-        <div id="screen-3" class="screen">
-            <h1>Шаг 2. Активация</h1>
-            <button class="main-action">Активировать VPN</button>
-            <button onclick="showScreen(2)">Назад</button>
-        </div>
+<div class="card">
+    <div class="header-icon">🛡️</div> <h1>Шаг 1. Установка</h1>
+    <p style="text-align:center; color: var(--text-sec)">Выберите приложение для настройки</p>
+    
+    <div class="grid">
+        <button class="device-btn">iPhone</button>
+        <button class="device-btn">Android</button>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    
+    <button class="action-btn-green">Скачать Happ</button>
+</div>
