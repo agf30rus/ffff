@@ -1,51 +1,48 @@
 :root {
     --bg-dark: #0a0a0c;
-    --card-bg: rgba(255, 255, 255, 0.04);
-    --accent-green: #00ff85;
-    --text-main: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --accent: #00ff85;
 }
 
 body {
     background-color: var(--bg-dark);
-    color: var(--text-main);
+    color: white;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
     padding: 20px;
 }
 
-.card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px); /* Матовое стекло */
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 30px;
-    padding: 24px;
-    margin: 0 auto;
-    max-width: 500px;
+h1 { text-align: center; font-size: 24px; margin-bottom: 8px; }
+.subtitle { text-align: center; color: #a0a0a0; font-size: 14px; margin-bottom: 25px; }
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-.device-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
+.card-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 20px;
+    color: white;
+    font-size: 14px;
     transition: 0.3s;
-    text-align: center;
 }
 
-.device-btn:active { 
-    background: var(--accent-green); 
-    color: #000; 
-}
+.card-btn:active { background: var(--accent); color: black; }
+.full-width { width: 100%; }
 
-.action-btn-green {
-    background: var(--accent-green);
-    border: none;
-    border-radius: 20px;
-    padding: 18px;
-    color: #000;
-    font-weight: bold;
+.extra-btn {
     width: 100%;
     margin-top: 15px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 18px;
+    border-radius: 20px;
+    font-weight: 600;
 }
