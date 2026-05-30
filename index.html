@@ -1,11 +1,33 @@
-<div class="card">
-    <div class="header-icon">🛡️</div> <h1>Шаг 1. Установка</h1>
-    <p style="text-align:center; color: var(--text-sec)">Выберите приложение для настройки</p>
-    
-    <div class="grid">
-        <button class="device-btn">iPhone</button>
-        <button class="device-btn">Android</button>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Setup</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Выберите устройство</h1>
+        <p class="subtitle">Выберите ваше устройство для настройки подключения</p>
+
+        <div class="grid">
+            <button class="card-btn">📱<br>iPhone/iPad</button>
+            <button class="card-btn">🤖<br>Android</button>
+            <button class="card-btn">💻<br>Windows</button>
+            <button class="card-btn">🍎<br>macOS</button>
+        </div>
+
+        <button class="card-btn full-width">📺 Android TV / Apple TV</button>
+        <button class="extra-btn">➕ Подключить дополнительное устройство</button>
     </div>
-    
-    <button class="action-btn-green">Скачать Happ</button>
-</div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+        window.Telegram.WebApp.setHeaderColor('#0a0a0c');
+    </script>
+</body>
+</html>
