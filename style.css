@@ -1,49 +1,13 @@
-:root {
-    /* Насыщенный черный цвет */
-    --bg-dark: #050505; 
-    --card-bg: rgba(255, 255, 255, 0.03); /* Карточки стали еще прозрачнее */
-    --border-color: rgba(255, 255, 255, 0.08); /* Тонкая граница */
-    --accent: #00ff85;
-}
-
-body {
-    background-color: var(--bg-dark);
-    /* Добавляем градиент-подсветку снизу, чтобы фон не был "плоским" */
-    background: radial-gradient(circle at 50% 100%, #1a1a1a 0%, #050505 70%);
-    color: white;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-}
-
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-
-.card-btn {
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    background: var(--card-bg); border: 1px solid var(--border-color);
-    border-radius: 20px; padding: 20px; color: white; transition: 0.3s;
-}
-.card-btn svg { width: 28px; height: 28px; opacity: 0.8; }
-.card-btn:active { background: var(--accent); color: black; }
-.card-btn:active svg { stroke: black; }
-
-.full-width { width: 100%; margin-bottom: 10px; flex-direction: row; justify-content: center; }
-
-.extra-btn {
-    width: 100%; background: transparent; border: 1px solid var(--accent);
-    color: var(--accent); padding: 18px; border-radius: 20px; font-weight: 600;
-}
-/* Настройка иконок */
 .card-btn svg {
-    width: 28px;
-    height: 28px;
-    stroke: rgba(255, 255, 255, 0.4); /* Полупрозрачный белый (40%) */
-    transition: all 0.3s ease; /* Плавный переход */
+    margin-bottom: 6px;
+    /* Иконки чуть менее контрастные, чтобы не "кричали", 
+       а гармонировали с текстом */
+    stroke: rgba(255, 255, 255, 0.6); 
+    transition: all 0.2s ease;
 }
 
-/* Эффект при нажатии: иконка становится яркой и непрозрачной */
+/* При нажатии иконка становится ярко-белой и чуть увеличивается */
 .card-btn:active svg {
-    stroke: #00ff85; /* Яркий акцентный цвет при нажатии */
-    opacity: 1;      /* Становится полностью видимой */
+    stroke: #ffffff;
+    transform: scale(1.1);
 }
