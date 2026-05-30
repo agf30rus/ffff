@@ -3,49 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dino VPN Setup</title>
+    <title>Dino VPN</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: sans-serif; background: #f4f6f8; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { background: white; width: 100%; max-width: 400px; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #333; }
+        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
         .screen { display: none; }
         .active { display: block; }
-        .card { border: 1px solid #e0e0e0; padding: 15px; border-radius: 12px; margin: 10px 0; cursor: pointer; text-align: center; }
-        .card:hover { border-color: #007bff; }
-        button { width: 100%; padding: 12px; border: none; border-radius: 10px; background: #007bff; color: white; cursor: pointer; margin-top: 10px; }
-        .back-btn { background: #e0e0e0; color: #333; }
-        h2 { text-align: center; }
+        .btn { display: block; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; text-align: center; margin-bottom: 10px; }
+        .btn-main { background: #007bff; color: white; }
+        .btn-back { background: #f0f0f0; color: #555; }
+        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .device-card { border: 1px solid #eef; padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; }
+        h2 { margin-top: 0; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="screen-home" class="screen active">
-        <h2>Выберите устройство</h2>
-        <div class="card" onclick="showScreen('screen-ios')">iPhone/iPad</div>
-        <div class="card" onclick="showScreen('screen-android')">Android</div>
-        <button onclick="showScreen('screen-extra')">Подключить доп. устройство</button>
+<div id="screen-1" class="screen active">
+    <h2>Выберите устройство</h2>
+    <div class="option-grid">
+        <div class="device-card" onclick="showScreen('screen-2')">📱 iPhone</div>
+        <div class="device-card" onclick="showScreen('screen-2')">🤖 Android</div>
+        <div class="device-card" onclick="showScreen('screen-2')">💻 Windows</div>
+        <div class="device-card" onclick="showScreen('screen-2')">🍎 macOS</div>
     </div>
+    <div class="device-card" style="margin-top:10px" onclick="showScreen('screen-tv')">📺 TV</div>
+    <button class="btn btn-main" style="margin-top:20px" onclick="showScreen('screen-extra')">Подключить доп. устройство</button>
+</div>
 
-    <div id="screen-ios" class="screen">
-        <h2>Шаг 1: Установка</h2>
-        <p>Скачайте приложение для iPhone/iPad</p>
-        <button class="back-btn" onclick="showScreen('screen-home')">Назад</button>
+<div id="screen-2" class="screen">
+    <h2>Шаг 1. Установка</h2>
+    <div class="card">
+        <p>Скачайте приложение для вашего устройства.</p>
+        <button class="btn btn-main">Скачать из App Store</button>
     </div>
+    <button class="btn btn-back" onclick="showScreen('screen-1')">Назад</button>
+</div>
 
-    <div id="screen-extra" class="screen">
-        <h2>Подключить устройство</h2>
-        <p>Отсканируйте QR-код:</p>
-        <div style="text-align:center; padding:20px; border:1px dashed #ccc;">[QR CODE HERE]</div>
-        <button class="back-btn" onclick="showScreen('screen-home')">Назад</button>
-    </div>
+<div id="screen-3" class="screen">
+    <h2>Шаг 2. Активация</h2>
+    <button class="btn btn-main" onclick="alert('VPN Активирован!')">Активировать VPN</button>
+    <button class="btn btn-back" onclick="showScreen('screen-1')">Назад</button>
+</div>
+
+<div id="screen-tv" class="screen">
+    <h2>Настройка TV</h2>
+    <input type="text" placeholder="Введите код" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ccc;">
+    <button class="btn btn-main" style="margin-top:10px">Отправить подписку</button>
+    <button class="btn btn-back" onclick="showScreen('screen-1')">Назад</button>
 </div>
 
 <script>
+    // Инициализация Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
     function showScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
     }
 </script>
-
 </body>
 </html>
