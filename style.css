@@ -1,47 +1,37 @@
-body {
-    background-color: #000000;
-    margin: 0;
-    padding: 15px;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.card {
-    background-color: #ffffff;
-    color: #000000;
-    padding: 24px;
-    border-radius: 24px;
-    margin-top: 20px;
-}
-
-h1 { font-size: 22px; text-align: center; margin: 0 0 10px 0; }
-.subtitle { color: #666; text-align: center; font-size: 14px; margin-bottom: 20px; }
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.device-btn {
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 16px;
-    padding: 20px 10px;
-    font-size: 14px;
-    color: #000;
-    cursor: pointer;
-}
-
-.full-width { width: 100%; }
-
-.extra-btn {
-    width: 100%;
-    background: #f0f7ff;
-    border: 1px solid #b3d7ff;
-    color: #005bb5;
-    border-radius: 16px;
-    padding: 20px;
-    margin-top: 15px;
-    font-weight: 500;
-}
+<div id="app">
+    <div id="screen-1" class="screen active">
+        <div class="card">
+            <h1>Выберите устройство</h1>
+            <p class="subtitle">Выберите ваше устройство для настройки подключения</p>
+            
+            <div class="grid">
+                <button class="device-btn">
+                    <div class="icon">📱</div>
+                    iPhone/iPad
+                </button>
+                <button class="device-btn">
+                    <div class="icon">🤖</div>
+                    Android
+                </button>
+                <button class="device-btn">
+                    <div class="icon">💻</div>
+                    Windows
+                </button>
+                <button class="device-btn">
+                    <div class="icon">🍎</div>
+                    macOS
+                </button>
+            </div>
+            
+            <button class="device-btn full-width">
+                <div class="icon">📺</div>
+                Android TV / Apple TV
+            </button>
+            
+            <button class="extra-btn">
+                <div class="icon-small">🗂️</div>
+                Подключить дополнительное устройство
+            </button>
+        </div>
+    </div>
+</div>
