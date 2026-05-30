@@ -5,46 +5,24 @@
     --accent: #00ff85;
 }
 
-body {
-    background-color: var(--bg-dark);
-    color: white;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    margin: 0;
-    padding: 20px;
-}
-
-.screen { display: none; }
-.screen.active { display: block; }
-
+body { background-color: var(--bg-dark); color: white; font-family: -apple-system, sans-serif; margin: 0; padding: 20px; }
 h1 { text-align: center; font-size: 24px; margin-bottom: 8px; }
 .subtitle { text-align: center; color: #a0a0a0; font-size: 14px; margin-bottom: 25px; }
 
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-}
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
 
 .card-btn {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 20px;
-    color: white;
-    font-size: 14px;
-    transition: 0.3s;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 20px; padding: 20px; color: white; transition: 0.3s;
 }
-
+.card-btn svg { width: 28px; height: 28px; opacity: 0.8; }
 .card-btn:active { background: var(--accent); color: black; }
-.full-width { width: 100%; margin-bottom: 10px; }
+.card-btn:active svg { stroke: black; }
+
+.full-width { width: 100%; margin-bottom: 10px; flex-direction: row; justify-content: center; }
 
 .extra-btn {
-    width: 100%;
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 18px;
-    border-radius: 20px;
-    font-weight: 600;
+    width: 100%; background: transparent; border: 1px solid var(--accent);
+    color: var(--accent); padding: 18px; border-radius: 20px; font-weight: 600;
 }
