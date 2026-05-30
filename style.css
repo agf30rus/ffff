@@ -26,3 +26,16 @@ h1 { text-align: center; font-size: 24px; margin-bottom: 8px; }
     width: 100%; background: transparent; border: 1px solid var(--accent);
     color: var(--accent); padding: 18px; border-radius: 20px; font-weight: 600;
 }
+/* Настройка иконок */
+.card-btn svg {
+    width: 28px;
+    height: 28px;
+    stroke: rgba(255, 255, 255, 0.4); /* Полупрозрачный белый (40%) */
+    transition: all 0.3s ease; /* Плавный переход */
+}
+
+/* Эффект при нажатии: иконка становится яркой и непрозрачной */
+.card-btn:active svg {
+    stroke: #00ff85; /* Яркий акцентный цвет при нажатии */
+    opacity: 1;      /* Становится полностью видимой */
+}
