@@ -1,37 +1,26 @@
-<div id="app">
-    <div id="screen-1" class="screen active">
-        <div class="card">
-            <h1>Выберите устройство</h1>
-            <p class="subtitle">Выберите ваше устройство для настройки подключения</p>
-            
-            <div class="grid">
-                <button class="device-btn">
-                    <div class="icon">📱</div>
-                    iPhone/iPad
-                </button>
-                <button class="device-btn">
-                    <div class="icon">🤖</div>
-                    Android
-                </button>
-                <button class="device-btn">
-                    <div class="icon">💻</div>
-                    Windows
-                </button>
-                <button class="device-btn">
-                    <div class="icon">🍎</div>
-                    macOS
-                </button>
-            </div>
-            
-            <button class="device-btn full-width">
-                <div class="icon">📺</div>
-                Android TV / Apple TV
-            </button>
-            
-            <button class="extra-btn">
-                <div class="icon-small">🗂️</div>
-                Подключить дополнительное устройство
-            </button>
-        </div>
-    </div>
-</div>
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+button {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.main-action {
+    background-color: #2ea44f;
+    border: none;
+    width: 100%;
+}
